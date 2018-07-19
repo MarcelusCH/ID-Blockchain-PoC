@@ -79,7 +79,7 @@ App = {
         console.error(err.message);
       });
 
-      chainListInstance.IsOwner().then(function(IsOwner) {
+      return chainListInstance.IsOwner().then(function(IsOwner) {
         if(IsOwner){
           globalIsOwner=true;
           $('.btn-add-admin').attr('style','visibility: visible;');

@@ -1,0 +1,885 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>ID Blockchain PoC</title>
+
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Application -->
+  <link href="css/app.css" rel="stylesheet">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="jumbotron text-center">
+      <h1>ID Blockchain PoC</h1>
+      <h2 style="margin-top:  -10px;">by Marcel Buob</h2>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-12">
+        <p id="account" class="pull-right"/>
+        <p id="accountBalance" class="pull-left" ></p>
+      </div>
+    </div>
+
+
+
+
+    <div id="tabsWeb">
+      <ul>
+        <li><a href="#tabsWeb-1">Welcome</a></li>
+        <li><a href="#tabsWeb-2">Application</a></li>
+        <li><a href="#tabsWeb-3">Infos & docs</a></li>
+      </ul>
+
+
+      <!-- Welcome -->
+      <!-- ----------------------------------------------------------- -->
+      <div id="tabsWeb-1" >
+        <h2>Bienvenue</h2>
+
+        <p>Ce site internet est un "Proof of Concept" qu'une base de donnée d'identification de personnes peut être déployée sur une blockchain
+            et que des applications décentralisées peuvent être utilisées pour interagir avec les éléments enregistrés. Grâce aux 'Smart Contract', écrit en language "Solidity"
+            de la platforme Ethereum, toutes les informations sont séquencées et sécurisées de façon imuable dans la blockchain une fois les contrats déployés.</p>
+
+        <p><strong>Important avant de commancer: </strong>Cette application est basée sur la technologie blockchain de Ethereum et il est donc nécessaire d'avoir des connaissences de base
+            sur les fonctionalités des Wallet ETH avant de l'utiliser.
+            Afin de profiter plainement des fonctionalités de cette application, je vous conseil de prendre
+            connaissence des informations présentent sous l'onglet "Infos & Docs" afin de pouvoir accéder à l'application
+            en temps que administrateur et de voir tout les élements.
+            Vous y trouverez les informations nécessaire pour installer MetaMask (Browser Wallet Plugin), pour configurer ce dernier sur le réseau
+            "Rinkeby Ethereum Test", pour configurer votre wallet et pour importer une addresse ETH avec la clé privée.
+            <a href="" style="font-size: smaller;">Cliquez ici pour plus d'informations...</a></p>
+
+        <p></br><strong><a href="">--> Voir la vidéo de démonstration <--</a></strong></br></p>
+
+        <h3>Description et fonctionalités</h3>
+        <p>Dans cette demo, tout le monde peut ajouter des éléments, mais plusieurs niveaux d'autorisations ainsi qu'une séquence de validation
+            des éléments ont été implémenté pour qu'il soit possible d'autoriser des utilisateurs spécifiques pouvant administrer les éléments. Du faite que
+            cette application est basée sur la platform Ethereum, les utilisateurs sont lié à une addresse ETH sécurisée par une clé privée.
+            Un utilisateur quelconque sera seulement en mesure de voir les éléments ajoutés par lui même (éventuellemnt d'en modifier certaines données)
+            et un administrateur pourra lui voir et administrer tout les enregistrements.</p>
+
+        <div class="row">
+
+          <div class="col-lg-12 margin5L"><strong>Authorisation d'accès</strong></div>
+          <div class="col-lg-12 margin15L">
+            <p>L'application ID Blockchain PoC (v0.1.0) possède 5 type d'accès; Owner, Administrator, Write User, Read User et User. Ces types d'accès sont pour l'instant
+                "hard" codé dans les contrats solidity (.sol) et chaque type d'accès peut être vérifié à l'aide des méthodes; IsOwner(), IsAdmin(), IsWritePerson() et IsReadPerson().
+                Ces accès sont définit par l'addresse Ethereum utilisée pour la connexion à cette application.
+                Seul les accès Owner, Administrator et User sont actuelement utilisé dans cette démo.
+                Les différantes autorisations d'accès pour chaque type sont décritent ci-dessous.
+            </p>
+
+            <p><u>User</u></br>
+            Le type "User" peut ajouter une personne, ajouter une photo à cette personne et modifier
+                  les informations et la photo des personnes qu'il à lui même ajoutées.
+                  Il peut aussi initier le workflow de validation pour ces entrées, mais une fois le workflow initié, il ne peut plus en modifier les données.
+                  Le "User" ne peut pas accéder aux informations des personnes saisies par un autre utilisateur, il peut toutefois accéder à une liste de fiche ID en recherchant par le nom exact.
+                  Si un "Administrator" modifie la photo d'une saisie appartenant à un "User", ce dernier ne pourra plus voir l'image jusqu'à ce que
+                  le "Owner" aurra valider l'image.
+              </p>
+
+              <p><u>Administrator</u></br>
+              Le type "Administrator" peut effectuer toutes les fonction d'un "User" mais peut lui modifier
+                  les infos et la photo de toutes les personnes qui n'ont pas reçu une validation finale (getValidation(_refPerson)=1).
+                  Il peut aussi initier le workflow de validation pour ces entrées, et une fois le workflow initié, il peut toujours en modifier les données (avant validation finale).
+                  Le type "Administrator" peut accéder aux informations de toutes les personnes, il ne peut toutefois pas accéder à une photo non validée par le "Owner" enregistrée par un autre utilisateur.
+                  Il peut egualement effectuer la validation finale d'une fiche personne dont le workflow à été initié.
+                  Il ne peut pas valider une image et ne peut pas modifier les authorisations, il peut cepandant voir la table des autorisations.
+              </p>
+
+              <p><u>Owner</u></br>
+              Le type "Owner" est le compte (adrese ETH) qui à déployer le "Smart Contract".
+                  Il peut effectuer toutes les opérations d'un "Administrator" mais peut à tout moment modifier les données (text et image) à tout moment du workflow de validation.
+                  Le type "Administrator" peut accéder aux informations de toutes les personnes et toutes les images. C'est seul lui qui valide les images.
+                  Il peut aussi ajouter ou supprimer les "Administrator" ainsi que gérer les autres droits d'accés.
+              </p>
+
+              <p><u>Write User / Read User</u></br>
+              Ces deux types sont en phase prototype dans le contrat et ne sont pas encore gérable dans cette version de l'application.
+                  <a href="" style="font-size: smaller;">Cliquez ici pour plus d'informations...</a></p>
+              </p>
+
+          </div>
+
+          <div class="col-lg-12 margin5L"><strong>Workflow de validation</strong></div>
+          <div class="col-lg-12 margin15L">
+            <p>L'application ID Blockchain PoC (v0.1.0) possède 2 workflow de validation; la validation des fiches personnes et la validation des images de profiles (photo).</p>
+            <p>La validation de la photo ne peut être faite que par le "Owner" et comporte 2 statut; vrai=lorsque la photo à été validée, faux=lors que la photo à été ajoutée
+                ou modifiée. Une Image non validée ne peut être vue que par l'utilisateur qui l'a ajouté ou modifié. Une fois la photo validée,
+                celle-ci peut être vue par les (autres) administrateurs ou par le propriétaire de la fiche personne.</p>
+            <p>La validation de la fiche personne peut être faite par un "Administrator" et comporte 3 statut; -1=Validation non initié, 0=Validation en attente, 1=Validé.
+                Comme décrit plus haut, un "User" peut seulement initier la validation des ces propres fiches et les "Administrator" peuvent effectuer toutes les validations
+                de toutes les fiches personnes. Lorsqu'un utilisateur initie la validation, la nouvelle fiche personne passe alors du status de validation "-1" à "0", en attente de validation.
+                Lorsqu'un "administrator" valide la fiche personne, cette fiche passe alors du status de validation "0" à "1", validé.
+                Ce même statut (-1,0,1) est automatiquement appliqué à la photo de la fiche aussi afin de définir les autorisations d'accès et modification.
+            </p>
+
+          </div>
+
+          <div class="col-lg-12 margin5L"><strong>Ajout/modification de personnes et leur photo</strong></div>
+          <div class="col-lg-12 margin15L">
+            <p>Comme déjà décrit ci-dessus, tout le monde peut ajouter une fiche personne mais la modification d'une fiche personne et ça photo est restrainte selon l'étape de validation
+                et les autorisations d'accèes. Voici un tableau récapitulatif des autorisations d'ajout ou de modification d'une fiche:
+            </p>
+            <img src="img/person-photo-authorization-matrix.png" style="max-width:600px;">
+          </br></br>
+          </div>
+
+
+
+
+
+          <div class="col-lg-12 margin5L"><strong>Recherches et listing</strong></div>
+          <div class="col-lg-12 margin15L">
+            <p>Il est possible d'effectuer des recherches par nom seulement. Seul les "Administrator" peuvent rechercher dans toutes les fiches personnes,
+            les "User" ne peuvent rechercher que dans leurs propre saisies. Plusieurs listing sont disponible selon le type d'accès;
+            all items, items to validate, validated items, search items. Les recherches doivent être précise et spécifique, seul une correspondance total
+            donnera un résultat ('jean' n'est pas égual à 'Jean').</p>
+          </div>
+
+          <div class="col-lg-12 margin5L"><strong>Coût en ETH</strong></div>
+          <div class="col-lg-12 margin15L">
+            <p>Les ETH dépensés sont des ether du réseau Rinkeby et n'ont aucune valeur marchande. Sur le site site <a href="">rinkeby.io</a>,
+              les ether peuvent être obtenu gratuitement. Delon la taille de l'image (env. 100px/150px), l'ajout d'une personne varie entre 0.1 à 1 ETH. Ce qui serai énorme
+              sur le réseau ETH principal!
+
+            </p>
+          </div>
+
+
+        </div>
+
+        <h3>Utilisation et contact</h3>
+        <p>
+            L'utilisation de cette application est libre à tous et vous pouvez visiter mon Github si vous désirer faire tourner une version locale ou vous inspirer des codes source.
+            Si vous avez besoin d'aide pour utiliser l'application, rendez-vous sur l'onglet "Infos & Docs". Vous y trouverez un mode d'emplois de l'application,
+            des instructions pour installer MetaMask et vous connecter au réseau Rinkeby. D'autres lien et resource y sont disponible. Si vous avez encore des questions ou un bug à reporter, veuillez
+            m'envoyer un eMail à mon adresse buob.marcel@gmail.com
+
+        </p>
+
+
+
+      </div>
+
+
+      <!-- Application -->
+      <!-- ----------------------------------------------------------- -->
+      <div id="tabsWeb-2" >
+
+        <div class="row">
+
+          <div class="col-lg-12">
+            <h2 class="pull-left">ID Blockchain Decentralized App </h2><p class="pull-left" style="font-size: smaller;"> v0.1</p>
+            <p id="ConectedAsLabel" class="pull-right" >Not conected</p>
+
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <button type="button" class="btn btn-primary btn-sm pull-left"
+                  onclick="App.reloadPerson(); return false;">Reload Data</button>
+
+            <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#addPerson"
+              onclick="OpenAddPerson(); return false;">Add new person</button>
+            <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#ManageAutorization">Manage autorizations</button>
+            <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#UpdateInfoBox">TEST</button>
+
+
+          </div>
+        </div>
+
+        </br>
+
+
+            <div id="tabsApp">
+              <ul>
+                <li><a href="#tabs-1">All items (admin)</a></li>
+                <li><a href="#tabs-2">Items validation (admin)</a></li>
+                <li><a href="#tabs-3">Validated items (admin)</a></li>
+                <li><a href="#tabs-4">My items only</a></li>
+                <li><a href="#tabs-0">Search</a></li>
+                <li><a href="#tabs-5">Functions</a></li>
+              </ul>
+
+
+              <!-- Search-->
+              <!-- ----------------------------------------------------------- -->
+              <div id="tabs-0" >
+
+                <div class="row">
+                  <div class="col-lg-12 col-sm-12 col-xs-12">
+                      <strong>Information person </strong>
+                  </div>
+
+
+                  <div class="col-lg-5 col-sm-5 col-xs-5">
+                    <input type="text" class="form-control " id="SearchPersonName">
+                  </div>
+                  <div class="col-lg-5 col-sm-5 col-xs-5">
+                    <button type="button" class="btn btn-success btn-search-person btn-sm" onclick="App.searchPersonByName(); return false;">Search by Name</button>
+                  </div>
+
+                </div>
+
+              </br>
+              <div id="SearchPersonsRow" class="row"></div>
+              </div>
+
+
+              <!-- All ITEMS (admin)-->
+              <!-- ----------------------------------------------------------- -->
+              <div id="tabs-1" >
+
+                <div class="row">
+                  <div class="col-lg-1 col-sm-1 col-xs-2" style="width:95px;">
+                      <strong>Information: </strong>
+                  </div>
+                  <div class="col-lg-10 col-sm-10 col-xs-9">
+                    <p>Seul les administrateurs peuvent voir les élements de cette liste.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour un accès admin...</a></p>
+                    <p>Tout les élements de type "person" sont affichés ci-dessous. Différents
+                    boutons de fonctions peuvent êtres disponible selon la phase de validation des l'élements.
+                    Sélectionnez l'onglet "Functions" pour ajouter un nouvel élement dans la liste.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour plus d'informations...</a></p>
+                  </div>
+                </div>
+
+                <div id="personsRow" class="row"></div>
+              </div>
+
+              <!-- To validate (admin)-->
+              <!-- ----------------------------------------------------------- -->
+              <div id="tabs-2">
+
+                <div class="row">
+                  <div class="col-lg-1 col-sm-1 col-xs-2" style="width:95px;">
+                      <strong>Information: </strong>
+                  </div>
+                  <div class="col-lg-10 col-sm-10 col-xs-9">
+                    <p>Seul les administrateurs peuvent voir les élements de cette liste.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour un accès admin...</a></p>
+                    <p>Tout les élements de type "person" se trouvant en attente de validation sont affichés ci-dessous.
+                    Les boutons "Modify" et "Final Validation" sont présent. Cliquez sur ces derniers pour finaliser la validation ou modifier les informations de l'élement.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour plus d'informations...</a></p>
+                  </div>
+                </div>
+
+                <div id="personsRowToValidate" class="row"></div>
+              </div>
+
+
+              <!-- Already validated (admin)-->
+              <!-- ----------------------------------------------------------- -->
+              <div id="tabs-3">
+
+                <div class="row">
+                  <div class="col-lg-1 col-sm-1 col-xs-2" style="width:95px;">
+                      <strong>Information: </strong>
+                  </div>
+                  <div class="col-lg-10 col-sm-10 col-xs-9">
+                    <p>Seul les administrateurs peuvent voir les élements de cette liste.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour un accès admin...</a></p>
+                    <p>Tout les élements de type "person" déjà validés sont affichés ci-dessous.
+                    A ce stade de la validation, plus personne (sauf le contract owner) ne peut changer les informations des l'élements.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour plus d'informations...</a></p>
+                  </div>
+                </div>
+
+                <div id="ValidatedpersonsRow" class="row"></div>
+              </div>
+
+
+              <!-- My Items -->
+              <!-- ----------------------------------------------------------- -->
+              <div id="tabs-4">
+
+
+                <div class="row">
+                  <div class="col-lg-1 col-sm-1 col-xs-2" style="width:95px;">
+                      <strong>Information: </strong>
+                  </div>
+                  <div class="col-lg-10 col-sm-10 col-xs-9">
+                    <p>Seul vos élements de type "person" sont affiché ici. Il s'agis de la liste des élements que vous avez saisi et enregistré (avec la présente address ETH).
+                    <p>Différents boutons de fonctions peuvent êtres disponible selon la phase de validation des l'élements.
+                    Sélectionnez l'onglet "Functions" pour ajouter un nouvel élement dans la liste.
+                    <a href="" style="font-size: smaller;">Cliquez ici pour plus d'informations...</a></p>
+                  </div>
+                </div>
+
+
+
+
+
+
+                <div id="MyPersonsRow" class="row"></div>
+              </div>
+
+
+
+
+              <div id="tabs-5">
+
+                <div class="row">
+                  <div class="col-lg-1 col-sm-1 col-xs-2" style="width:95px;">
+                      <strong>Information: </strong>
+                  </div>
+                  <div class="col-lg-10 col-sm-10 col-xs-9">
+                    <p class="pull-left">Toutes les données insérées dans cette "Dapp" sont stockées sur la blockchain de
+                      <a href="https://www.rinkeby.io">"Rinkeby Test Network"</a>. Ce réseau implémente
+                      les mêmes caractéristiques technique que le réseau principal de Etherneum,
+                      sauf que la difficulté de calcul n'augmente jamais et qu'il n'y a pas de "block reward".</p>
+                  </div>
+
+
+
+                </div>
+
+
+                <div class="row">
+
+                  <div  class="col-lg-12 col-sm-12 col-xs-12" >
+                      <strong>Fonctions à disposition</strong></br></br>
+                  </div>
+
+
+
+                  <button class="btn btn-primary btn-lg pull-left margin15L" data-toggle="modal" data-target="#addPerson"
+                    onclick="OpenAddPerson(); return false;">Add new person</button>
+                  <button class="btn btn-primary btn-lg pull-left margin15L" data-toggle="modal" data-target="#ManageAutorization">Manage autorizations</button>
+                  <button class="btn btn-primary btn-lg pull-left margin15L" data-toggle="modal" data-target="#UpdateInfoBox"
+                      onclick="setTimeout(function(){ $('#UpdateInfoBox').modal('hide'); return false; }, 1500);" >test</button>
+
+
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+      </div>
+      <div id="tabsWeb-3" >
+
+      </div>
+    </div>
+
+
+
+
+
+
+    <!--<div class="col-md-12" id="article-list">
+
+      <div class="row panel panel-default">
+        <div class="panel-heading clearfix">
+          <div class="panel-title">
+            <button class="btn btn-info btn-lg pull-left margin5L" data-toggle="collapse" data-target="#events" aria-expanded="false" aria-controls="events">Shows Events</button>
+
+
+
+
+            <button class="btn btn-success btn-lg pull-left margin15L" data-toggle="modal" data-target="#addPerson">New Person</button>
+            <button class="btn btn-warning btn-lg pull-left margin15L" data-toggle="modal" data-target="#addPerson">New Person</button>
+            <button class="btn btn-danger btn-sm pull-left margin15L" data-toggle="modal" data-target="#addPerson">New Person</button>
+            <button class="btn btn-link btn-lg pull-left margin15L" data-toggle="modal" data-target="#addPerson">New Person</button>
+            <button class="btn btn-group btn-lg pull-left ">New Person</button>
+            <button class="btn btn-group btn-lg pull-left ">New Person</button>
+            <button class="btn btn-group btn-lg pull-left ">New Person</button>
+            <button class="btn btn-group btn-lg pull-left ">New Person</button>
+
+            <button class="btn btn-block btn-lg pull-left margin15L" data-toggle="modal" data-target="#addPerson">New Person</button>
+
+          </div>
+        </div>
+        <ul id="events" class="collapse list-group">
+        </ul>
+      </div>
+    </div>-->
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+  <!-- Template for the person list Item -->
+  <!-- ----------------------------------------------------------- -->
+  <div id="personTemplate" class="order" style="display: none;">
+    <div class="row-lg-12">
+      <div class="panel panel-default panel-person">
+
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-lg-12">
+              <h3 class="panel-title pull-left"></h3>
+              <span class="person-Status pull-right"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="pull-left">
+            <img src="img/empty-profile-pic.png" alt="Person Photo" class="person-photo" style="width:100px;">
+          </br><span class="person-photo-validate">Loading...</span>
+          </div>
+          <div class="pull-left margin5L">
+            <div class="pull-left width120 margin15L"><strong>Name</strong>:</div><span class="pull-left person-name"></span><br/>
+            <div class="pull-left width120 margin15L"><strong>Given name</strong>:</div><span class="pull-left person-givenName"></span><br/>
+            <div class="pull-left width120 margin15L"><strong>Gender</strong>:</div><span class="pull-left person-gender"></span><br/>
+            <div class="pull-left width120 margin15L"><strong>Birthdate</strong>:</div><span class="pull-left person-birthdate"></span><br/>
+            <div class="pull-left width120 margin15L"><strong>Added by</strong>:</div><span class="pull-left person-creator"></span><br/>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button type="button" class="btn btn-success btn-add-photo btn-sm" data-toggle="modal" data-target="#addPhoto"
+                  onclick="OpenAddPhoto($(this)); return false;">Add Photo</button>
+          <button type="button" class="btn btn-success btn-modify-photo btn-sm" data-toggle="modal" data-target="#modifyPhoto"
+                  onclick="OpenModifyPhoto($(this)); return false;">Modify Photo</button>
+          <button type="button" class="btn btn-success btn-modify-Person btn-sm" data-toggle="modal" data-target="#modifyPerson"
+                  onclick="OpenModifyPerson($(this)); return false;">Modify</button>
+          <button type="button" class="btn btn-info btn-add-minutia btn-sm margin15L">Add Bio</button>
+          <button type="button" class="btn btn-warning btn-push-validation btn-sm pull-right"
+                  title="Push profil to validation request."  onclick="App.PuchPersonToValidation($(this)); return false;">Ask for validation</button>
+          <button type="button" class="btn btn-warning btn-push-finalValidation btn-sm pull-right"
+                  title="Execute the final validation."  onclick="App.FinalPersonValidation($(this)); return false;">Final Validation</button>
+          <button type="button" class="btn btn-danger btn-validate-photo btn-sm pull-right"
+                  onclick="App.PhotoValidation($(this)); return false;">Photo Validation</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal form to add person -->
+  <!-- ----------------------------------------------------------- -->
+  <div class="modal fade" id="addPerson" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Form Title-->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Person</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-lg-12">
+              <form>
+
+                <div class="form-group">
+                  <label for="person_name">Name</label>
+                  <input type="text" class="form-control" id="person_name" placeholder="Enter the name of the person">
+                </div>
+
+                <div class="form-group">
+                  <label for="person_givenName">Given Name</label>
+                  <input type="text" class="form-control" id="person_givenName" placeholder="Enter the given name of the person">
+                </div>
+        <!--
+                <div class="form-group">
+                  <label for="price">Price in ETH</label>
+                  <input type="number" class="form-control" id="article_price" placeholder="1" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" class="form-control vresize" id="article_description" placeholder="Describe your article" maxlength="255">
+                </div>
+        -->
+                <div class="form-group">
+                  <label for="person_gender">Gender</label>
+                  <select class="form-control " id="person_gender" >
+                    <option value="">Select...</option>
+                    <option value="F">F</option>
+                    <option value="M">M</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="person_birthdate">Birthdate</label>
+                  <input type="date" class="form-control" id="person_birthdate" placeholder="Enter the birthdate of the person">
+                </div>
+
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form button-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="App.addPerson(); return false;">Submit</button>
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End - Modal form to add person -->
+
+
+
+  <!-- Modal form to change an person -->
+  <!-- ----------------------------------------------------------- -->
+  <div class="modal fade" id="modifyPerson" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modify Person</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+
+              <form>
+
+                <div class="form-group" hidden>
+                  <label for="modifyPerson_id">ID</label>
+                  <input type="text" class="form-control" id="modifyPerson_id" >
+                </div>
+
+                <div class="form-group">
+                  <label for="modifyPerson_name">Name</label>
+                  <input type="text" class="form-control" id="modifyPerson_name" >
+                </div>
+
+                <div class="form-group">
+                  <label for="modifyPerson_givenName">Given Name</label>
+                  <input type="text" class="form-control" id="modifyPerson_givenName">
+                </div>
+
+                <div class="form-group">
+                  <label for="modifyPerson_gender">Gender</label>
+                  <select class="form-control " id="modifyPerson_gender" >
+                    <option value="">Select...</option>
+                    <option value="F">F</option>
+                    <option value="M">M</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="modifyPerson_birthDate">Birthdate</label>
+                  <input type="date" class="form-control" id="modifyPerson_birthDate">
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="App.modifyPerson(); return false;">Submit</button>
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal form to manage autorization -->
+  <!-- ----------------------------------------------------------- -->
+  <div class="modal fade" id="ManageAutorization" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Form Title-->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Manage autorization</h4>
+        </div>
+
+        <!-- Form content-->
+        <div class="modal-body">
+
+          <strong>Contract Owner:</strong>
+          <div id="ContractOwnerAddress"></div>
+          <div style="font-size: smaller;">(The contract owner is allways admin and can do anything)</div>
+
+          </br>
+
+          <strong>Administrators List:</strong>
+          <div id="AdministratorsList" ></div>
+          <div style="font-size: smaller;">(Only the contract owner can add or remove admins)</div>
+
+        </br>
+
+          <input type="text" class="form-control" id="adminToAdd">
+          <button type="button" class="btn btn-success btn-add-admin btn-sm" onclick="App.AddAdministrator(); return false;">Add Admin</button>
+        </div>
+
+        <!-- Form button-->
+        <div class="modal-footer">
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Template for the administrator list Item -->
+  <div id="adminTemplate" style="display: none;">
+    <div>
+      <div class="admin-addr pull-left"></div><button type="button" class="btn btn-link btn-admin-remove btn-sm"
+        onclick="App.RemoveAdministrator($(this)); return false;">remove</button>
+    </div>
+  </div>
+
+
+
+  <!-- Modal form to add photo -->
+  <!-- ----------------------------------------------------------- -->
+  <div class="modal fade" id="addPhoto" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Form Title-->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Photo</h4>
+        </div>
+
+        <!-- Form content-->
+        <div class="modal-body">
+
+          <input id="imgPerson_id"   type="text" hidden>
+          <input id="btnBrowsPhoto" type="file" onchange="previewFile()"><br>
+          <p>- La photo sera vérifée et validée par le "Contract Owner".
+            Avant la validation, la photo n'apparaitra que pour vous même.</p>
+          <img id="imgPerson" src=""  alt="Image preview...">
+
+
+
+
+
+        </div>
+
+        <!-- Form button-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="App.addPhoto(); return false;">Submit</button>
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+        </div>
+
+        <script>
+           function previewFile(){
+               var preview = document.getElementById('imgPerson'); //selects the query named img
+               var file    = document.getElementById('btnBrowsPhoto').files[0]; //sames as here
+               var reader  = new FileReader();
+
+               reader.onloadend = function () {
+                   preview.src = reader.result;
+                  //alert(preview.src);
+               }
+
+               if (file) {reader.readAsDataURL(file);}
+               else {preview.src = "";}
+
+             }
+
+          </script>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal form to modify photo -->
+  <!-- ----------------------------------------------------------- -->
+  <div class="modal fade" id="modifyPhoto" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Form Title-->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modify Photo</h4>
+        </div>
+
+        <!-- Form content-->
+        <div class="modal-body">
+
+          <input id="modify_imgPhoto_id"   type="text" hidden>
+          <input id="modify_btnBrowsPhoto" type="file" onchange="modify_previewFile()"><br>
+          <p>- La photo sera vérifée et validée par le "Contract Owner".
+            Avant la validation, la photo n'apparaitra que pour vous même.</p>
+          <img id="modify_imgPerson" src=""  alt="Image preview...">
+
+
+
+
+
+        </div>
+
+        <!-- Form button-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="App.modifyPhoto(); return false;">Submit</button>
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+        </div>
+
+        <script>
+           function modify_previewFile(){
+               var preview = document.getElementById('modify_imgPerson'); //selects the query named img
+               var file    = document.getElementById('modify_btnBrowsPhoto').files[0]; //sames as here
+               var reader  = new FileReader();
+
+               reader.onloadend = function () {
+                   preview.src = reader.result;
+                  //alert(preview.src);
+               }
+
+               if (file) {reader.readAsDataURL(file);}
+               else {preview.src = "";}
+
+             }
+
+          </script>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Modal Info box -->
+  <!-- ----------------------------------------------------------- -->
+  <div class="modal fade" id="UpdateInfoBox" role="dialog" >
+    <div  class="modal-dialog">
+      <div class="modal-content" >
+
+        <!-- Form Title-->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><img src="img/blockchain.gif" style="width:70px;">Blockchain Updated</h4>
+        </div>
+
+        <div class="modal-footer" style="text-align: left;">
+          <strong>Person added:</strong></br>ID: 1 | Marcel Buob, F, 1977-12-15
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ----------------------------------------------------------- -->
+  <div id="footer" class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="navbar-inner navbar-content-center text-center">
+        <p class="text-muted" credit><a href="https://ch.linkedin.com/in/buobmarcel"
+           rel="nofollow" target="_blank"  style="font-size: smaller;">Marcel BUOB IT</a> - Last update: 2018-07-10</a></p>
+      </div>
+    </nav>
+  </div>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+
+
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+
+  <script>
+
+    $( function() {$( "#tabsWeb" ).tabs();});
+    $( function() {$( "#tabsApp" ).tabs();});
+
+
+
+    //$(function () {
+    //  var $divs = $("div.row-lg-12");
+    //  var OrderedDivs = $divs.sort(function (a, b) {
+    //     return $(b).find("h3.panel-title").text() > $(a).find("h3.panel-title").text();
+    //  });
+    //  $("#personsRow").html(OrderedDivs);
+    //});
+
+
+
+  </script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

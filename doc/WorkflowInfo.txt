@@ -1,0 +1,31 @@
+
+GENERAL:
+
+1)  Someone add a person and it details. It can be the person self or someelse.
+    The creator address is the caller of addPerson() function.
+    Only the Creator can view & modify the Item (or specific grp & admin).
+2)  Once the basic profil is created, the "Person Item" as to be pushed in the
+    in the validation phase "0". The phase 0 is checked by the address that
+    call the Function PuchPersonToValidation() (Normally the Person.creator).
+    Once "Pushed" in Validation, only system or person autorized users & admin
+    can view/modify this Person item. The creator can can view it allways.
+3)  The person Item go thrug the Validations Phases. One of the phase could be
+    FingerPrint adding, paying, get the document (or shipped),...
+4)  Once all Validation done, the Person document is valide. Otherwise it is
+    "Preparation" (or canceled).
+
+
+Used Workflow in this POC - ValidationFlow Storage:
+(Can only be added by contract owner)
+
+0 - Pushed in validation
+1 - Identity Check (and physical register)
+2 - Add & Check FingerPrint
+3 - Print Autorization
+4 - Printed
+5 - Delivery Autorization
+6 - Delivered
+
+
+Read / Write / Modify / Admin autorizationTypes
+- The Contract owner is admin by default and can do Every think

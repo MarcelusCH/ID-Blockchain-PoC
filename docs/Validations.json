@@ -21,697 +21,1253 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x60606040526000600255600060045560006006556000600855336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610127806100676000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638392ae5c146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506078565b6040518082815260200191505060405180910390f35b60008060007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9150600090505b60085481101560f157836007600083815260200190815260200160002060010154141560e557600760008281526020019081526020016000206002015491505b808060010191505060a5565b81925050509190505600a165627a7a7230582087e9d5c4d52029fffec020782a34e0f97f30a35380f984fa61756cf2ca0abbca0029",
-  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638392ae5c146044575b600080fd5b3415604e57600080fd5b606260048080359060200190919050506078565b6040518082815260200191505060405180910390f35b60008060007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9150600090505b60085481101560f157836007600083815260200190815260200160002060010154141560e557600760008281526020019081526020016000206002015491505b808060010191505060a5565b81925050509190505600a165627a7a7230582087e9d5c4d52029fffec020782a34e0f97f30a35380f984fa61756cf2ca0abbca0029",
+  "bytecode": "0x60806040526000600255600060045560006006556000600855336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610139806100676000396000f300608060405260043610610041576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638392ae5c14610046575b600080fd5b34801561005257600080fd5b5061007160048036038101908080359060200190929190505050610087565b6040518082815260200191505060405180910390f35b60008060007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9150600090505b6008548110156101035783600760008381526020019081526020016000206001015414156100f657600760008281526020019081526020016000206002015491505b80806001019150506100b4565b81925050509190505600a165627a7a72305820420ec6b03616d11c244ce1bd78144d3f18d4fe4be46eeb2d170d9e602a499d2e0029",
+  "deployedBytecode": "0x608060405260043610610041576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638392ae5c14610046575b600080fd5b34801561005257600080fd5b5061007160048036038101908080359060200190929190505050610087565b6040518082815260200191505060405180910390f35b60008060007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9150600090505b6008548110156101035783600760008381526020019081526020016000206001015414156100f657600760008281526020019081526020016000206002015491505b80806001019150506100b4565b81925050509190505600a165627a7a72305820420ec6b03616d11c244ce1bd78144d3f18d4fe4be46eeb2d170d9e602a499d2e0029",
   "sourceMap": "87:498:6:-;;;2869:1:5;2848:22;;2932:1;2912:21;;3032:1;2999:34;;3110:1;3085:26;;243:10:3;235:5;;:18;;;;;;;;;;;;;;;;;;87:498:6;;;;;;",
-  "deployedSourceMap": "87:498:6:-;;;;;;;;;;;;;;;;;;;;;;;;241:335;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;303:3;316:10;384:6;329:2;316:15;;393:1;384:10;;380:169;400:17;;396:1;:21;380:169;;;466:11;437;:14;449:1;437:14;;;;;;;;;;;:25;;;:40;434:108;;;499:11;:14;511:1;499:14;;;;;;;;;;;:33;;;490:42;;434:108;420:3;;;;;;;380:169;;;562:6;555:13;;241:335;;;;;:::o",
-  "source": "pragma solidity ^0.4.18;\r\n\r\n\r\nimport \"./Ownable.sol\";\r\nimport \"./Structures.sol\";\r\n\r\n\r\ncontract Validations is Ownable, Structures  {\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n  // Check the actual Validation phase -----------------------------------------\r\n  function getValidation(uint _ref_Person) public view returns (int){\r\n\r\n    int RetVal = -1;\r\n\r\n    // iterate over Validation storage\r\n    for(uint i = 0; i < ValidationCounter;  i++) {\r\n      if(validations[i].ref_Person == _ref_Person ){\r\n        RetVal = validations[i].ref_ValidationFlow;\r\n      }\r\n    }\r\n    return RetVal;\r\n\r\n  }\r\n\r\n\r\n\r\n}\r\n",
+  "deployedSourceMap": "87:498:6:-;;;;;;;;;;;;;;;;;;;;;;;;241:335;;8:9:-1;5:2;;;30:1;27;20:12;5:2;241:335:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;303:3;316:10;384:6;329:2;316:15;;393:1;384:10;;380:169;400:17;;396:1;:21;380:169;;;466:11;437;:14;449:1;437:14;;;;;;;;;;;:25;;;:40;434:108;;;499:11;:14;511:1;499:14;;;;;;;;;;;:33;;;490:42;;434:108;420:3;;;;;;;380:169;;;562:6;555:13;;241:335;;;;;:::o",
+  "source": "pragma solidity ^0.4.24;\r\n\r\n\r\nimport \"./Ownable.sol\";\r\nimport \"./Structures.sol\";\r\n\r\n\r\ncontract Validations is Ownable, Structures  {\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n  // Check the actual Validation phase -----------------------------------------\r\n  function getValidation(uint _ref_Person) public view returns (int){\r\n\r\n    int RetVal = -1;\r\n\r\n    // iterate over Validation storage\r\n    for(uint i = 0; i < ValidationCounter;  i++) {\r\n      if(validations[i].ref_Person == _ref_Person ){\r\n        RetVal = validations[i].ref_ValidationFlow;\r\n      }\r\n    }\r\n    return RetVal;\r\n\r\n  }\r\n\r\n\r\n\r\n}\r\n",
   "sourcePath": "D:\\ChainSkills\\Training\\IDchain\\contracts\\Validations.sol",
   "ast": {
-    "attributes": {
-      "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Validations.sol",
-      "exportedSymbols": {
-        "Validations": [
-          1605
-        ]
-      }
+    "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Validations.sol",
+    "exportedSymbols": {
+      "Validations": [
+        1605
+      ]
     },
-    "children": [
+    "id": 1606,
+    "nodeType": "SourceUnit",
+    "nodes": [
       {
-        "attributes": {
-          "literals": [
-            "solidity",
-            "^",
-            "0.4",
-            ".18"
-          ]
-        },
         "id": 1556,
-        "name": "PragmaDirective",
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
         "src": "0:24:6"
       },
       {
-        "attributes": {
-          "SourceUnit": 401,
-          "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Ownable.sol",
-          "file": "./Ownable.sol",
-          "scope": 1606,
-          "symbolAliases": [
-            null
-          ],
-          "unitAlias": ""
-        },
+        "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Ownable.sol",
+        "file": "./Ownable.sol",
         "id": 1557,
-        "name": "ImportDirective",
-        "src": "30:23:6"
+        "nodeType": "ImportDirective",
+        "scope": 1606,
+        "sourceUnit": 401,
+        "src": "30:23:6",
+        "symbolAliases": [],
+        "unitAlias": ""
       },
       {
-        "attributes": {
-          "SourceUnit": 1555,
-          "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Structures.sol",
-          "file": "./Structures.sol",
-          "scope": 1606,
-          "symbolAliases": [
-            null
-          ],
-          "unitAlias": ""
-        },
+        "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Structures.sol",
+        "file": "./Structures.sol",
         "id": 1558,
-        "name": "ImportDirective",
-        "src": "55:26:6"
+        "nodeType": "ImportDirective",
+        "scope": 1606,
+        "sourceUnit": 1555,
+        "src": "55:26:6",
+        "symbolAliases": [],
+        "unitAlias": ""
       },
       {
-        "attributes": {
-          "contractDependencies": [
-            400,
-            1554
-          ],
-          "contractKind": "contract",
-          "documentation": null,
-          "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            1605,
-            1554,
-            400
-          ],
-          "name": "Validations",
-          "scope": 1606
-        },
-        "children": [
+        "baseContracts": [
           {
-            "attributes": {
-              "arguments": [
-                null
-              ]
-            },
-            "children": [
-              {
-                "attributes": {
-                  "contractScope": null,
-                  "name": "Ownable",
-                  "referencedDeclaration": 400,
-                  "type": "contract Ownable"
-                },
-                "id": 1559,
-                "name": "UserDefinedTypeName",
-                "src": "111:7:6"
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1559,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 400,
+              "src": "111:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$400",
+                "typeString": "contract Ownable"
               }
-            ],
+            },
             "id": 1560,
-            "name": "InheritanceSpecifier",
+            "nodeType": "InheritanceSpecifier",
             "src": "111:7:6"
           },
           {
-            "attributes": {
-              "arguments": [
-                null
-              ]
-            },
-            "children": [
-              {
-                "attributes": {
-                  "contractScope": null,
-                  "name": "Structures",
-                  "referencedDeclaration": 1554,
-                  "type": "contract Structures"
-                },
-                "id": 1561,
-                "name": "UserDefinedTypeName",
-                "src": "120:10:6"
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1561,
+              "name": "Structures",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1554,
+              "src": "120:10:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Structures_$1554",
+                "typeString": "contract Structures"
               }
-            ],
-            "id": 1562,
-            "name": "InheritanceSpecifier",
-            "src": "120:10:6"
-          },
-          {
-            "attributes": {
-              "constant": true,
-              "implemented": true,
-              "isConstructor": false,
-              "modifiers": [
-                null
-              ],
-              "name": "getValidation",
-              "payable": false,
-              "scope": 1605,
-              "stateMutability": "view",
-              "superFunction": null,
-              "visibility": "public"
             },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
+            "id": 1562,
+            "nodeType": "InheritanceSpecifier",
+            "src": "120:10:6"
+          }
+        ],
+        "contractDependencies": [
+          400,
+          1554
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1605,
+        "linearizedBaseContracts": [
+          1605,
+          1554,
+          400
+        ],
+        "name": "Validations",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 1603,
+              "nodeType": "Block",
+              "src": "307:269:6",
+              "statements": [
+                {
+                  "assignments": [
+                    1570
+                  ],
+                  "declarations": [
+                    {
                       "constant": false,
-                      "name": "_ref_Person",
+                      "id": 1570,
+                      "name": "RetVal",
+                      "nodeType": "VariableDeclaration",
                       "scope": 1604,
+                      "src": "316:10:6",
                       "stateVariable": false,
                       "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 1563,
-                        "name": "ElementaryTypeName",
-                        "src": "264:4:6"
-                      }
-                    ],
-                    "id": 1564,
-                    "name": "VariableDeclaration",
-                    "src": "264:16:6"
-                  }
-                ],
-                "id": 1565,
-                "name": "ParameterList",
-                "src": "263:18:6"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "",
-                      "scope": 1604,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "int256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "int",
-                          "type": "int256"
-                        },
-                        "id": 1566,
-                        "name": "ElementaryTypeName",
-                        "src": "303:3:6"
-                      }
-                    ],
-                    "id": 1567,
-                    "name": "VariableDeclaration",
-                    "src": "303:3:6"
-                  }
-                ],
-                "id": 1568,
-                "name": "ParameterList",
-                "src": "302:5:6"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "assignments": [
-                        1570
-                      ]
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "constant": false,
-                          "name": "RetVal",
-                          "scope": 1604,
-                          "stateVariable": false,
-                          "storageLocation": "default",
-                          "type": "int256",
-                          "value": null,
-                          "visibility": "internal"
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "name": "int",
-                              "type": "int256"
-                            },
-                            "id": 1569,
-                            "name": "ElementaryTypeName",
-                            "src": "316:3:6"
-                          }
-                        ],
-                        "id": 1570,
-                        "name": "VariableDeclaration",
-                        "src": "316:10:6"
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
                       },
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "lValueRequested": false,
-                          "operator": "-",
-                          "prefix": true,
-                          "type": "int_const -1"
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "hexvalue": "31",
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": true,
-                              "lValueRequested": false,
-                              "subdenomination": null,
-                              "token": "number",
-                              "type": "int_const 1",
-                              "value": "1"
-                            },
-                            "id": 1571,
-                            "name": "Literal",
-                            "src": "330:1:6"
-                          }
-                        ],
-                        "id": 1572,
-                        "name": "UnaryOperation",
-                        "src": "329:2:6"
-                      }
-                    ],
-                    "id": 1573,
-                    "name": "VariableDeclarationStatement",
-                    "src": "316:15:6"
+                      "typeName": {
+                        "id": 1569,
+                        "name": "int",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "316:3:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int256",
+                          "typeString": "int256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1573,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "id": 1572,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "-",
+                    "prefix": true,
+                    "src": "329:2:6",
+                    "subExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "31",
+                      "id": 1571,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "330:1:6",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_1_by_1",
+                        "typeString": "int_const 1"
+                      },
+                      "value": "1"
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_-1_by_1",
+                      "typeString": "int_const -1"
+                    }
                   },
-                  {
-                    "children": [
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "316:15:6"
+                },
+                {
+                  "body": {
+                    "id": 1599,
+                    "nodeType": "Block",
+                    "src": "425:124:6",
+                    "statements": [
                       {
-                        "attributes": {
-                          "assignments": [
-                            1575
-                          ]
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "constant": false,
-                              "name": "i",
-                              "scope": 1604,
-                              "stateVariable": false,
-                              "storageLocation": "default",
-                              "type": "uint256",
-                              "value": null,
-                              "visibility": "internal"
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "name": "uint",
-                                  "type": "uint256"
-                                },
-                                "id": 1574,
-                                "name": "ElementaryTypeName",
-                                "src": "384:4:6"
-                              }
-                            ],
-                            "id": 1575,
-                            "name": "VariableDeclaration",
-                            "src": "384:6:6"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "hexvalue": "30",
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": true,
-                              "lValueRequested": false,
-                              "subdenomination": null,
-                              "token": "number",
-                              "type": "int_const 0",
-                              "value": "0"
-                            },
-                            "id": 1576,
-                            "name": "Literal",
-                            "src": "393:1:6"
-                          }
-                        ],
-                        "id": 1577,
-                        "name": "VariableDeclarationStatement",
-                        "src": "384:10:6"
-                      },
-                      {
-                        "attributes": {
+                        "condition": {
                           "argumentTypes": null,
                           "commonType": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
+                          "id": 1589,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
-                          "operator": "<",
-                          "type": "bool"
-                        },
-                        "children": [
-                          {
-                            "attributes": {
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 1575,
-                              "type": "uint256",
-                              "value": "i"
-                            },
-                            "id": 1578,
-                            "name": "Identifier",
-                            "src": "396:1:6"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 1553,
-                              "type": "uint256",
-                              "value": "ValidationCounter"
-                            },
-                            "id": 1579,
-                            "name": "Identifier",
-                            "src": "400:17:6"
-                          }
-                        ],
-                        "id": 1580,
-                        "name": "BinaryOperation",
-                        "src": "396:21:6"
-                      },
-                      {
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
+                              "baseExpression": {
+                                "argumentTypes": null,
+                                "id": 1584,
+                                "name": "validations",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1550,
+                                "src": "437:11:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+                                  "typeString": "mapping(uint256 => struct Structures.Validation storage ref)"
+                                }
+                              },
+                              "id": 1586,
+                              "indexExpression": {
+                                "argumentTypes": null,
+                                "id": 1585,
+                                "name": "i",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1575,
+                                "src": "449:1:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
                               "isConstant": false,
-                              "isLValue": false,
+                              "isLValue": true,
                               "isPure": false,
                               "lValueRequested": false,
-                              "operator": "++",
-                              "prefix": false,
-                              "type": "uint256"
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
-                                  "referencedDeclaration": 1575,
-                                  "type": "uint256",
-                                  "value": "i"
-                                },
-                                "id": 1581,
-                                "name": "Identifier",
-                                "src": "420:1:6"
+                              "nodeType": "IndexAccess",
+                              "src": "437:14:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Validation_$1504_storage",
+                                "typeString": "struct Structures.Validation storage ref"
                               }
-                            ],
-                            "id": 1582,
-                            "name": "UnaryOperation",
-                            "src": "420:3:6"
-                          }
-                        ],
-                        "id": 1583,
-                        "name": "ExpressionStatement",
-                        "src": "420:3:6"
-                      },
-                      {
-                        "children": [
-                          {
-                            "attributes": {
-                              "falseBody": null
                             },
-                            "children": [
-                              {
-                                "attributes": {
+                            "id": 1587,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "ref_Person",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 1497,
+                            "src": "437:25:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "id": 1588,
+                            "name": "_ref_Person",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1564,
+                            "src": "466:11:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "437:40:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "falseBody": null,
+                        "id": 1598,
+                        "nodeType": "IfStatement",
+                        "src": "434:108:6",
+                        "trueBody": {
+                          "id": 1597,
+                          "nodeType": "Block",
+                          "src": "479:63:6",
+                          "statements": [
+                            {
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1595,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "leftHandSide": {
                                   "argumentTypes": null,
-                                  "commonType": {
-                                    "typeIdentifier": "t_uint256",
-                                    "typeString": "uint256"
+                                  "id": 1590,
+                                  "name": "RetVal",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1570,
+                                  "src": "490:6:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  }
+                                },
+                                "nodeType": "Assignment",
+                                "operator": "=",
+                                "rightHandSide": {
+                                  "argumentTypes": null,
+                                  "expression": {
+                                    "argumentTypes": null,
+                                    "baseExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1591,
+                                      "name": "validations",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1550,
+                                      "src": "499:11:6",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+                                        "typeString": "mapping(uint256 => struct Structures.Validation storage ref)"
+                                      }
+                                    },
+                                    "id": 1593,
+                                    "indexExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1592,
+                                      "name": "i",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1575,
+                                      "src": "511:1:6",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                      }
+                                    },
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "nodeType": "IndexAccess",
+                                    "src": "499:14:6",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_struct$_Validation_$1504_storage",
+                                      "typeString": "struct Structures.Validation storage ref"
+                                    }
                                   },
+                                  "id": 1594,
                                   "isConstant": false,
-                                  "isLValue": false,
+                                  "isLValue": true,
                                   "isPure": false,
                                   "lValueRequested": false,
-                                  "operator": "==",
-                                  "type": "bool"
+                                  "memberName": "ref_ValidationFlow",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 1499,
+                                  "src": "499:33:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  }
                                 },
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "member_name": "ref_Person",
-                                      "referencedDeclaration": 1497,
-                                      "type": "uint256"
-                                    },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "isConstant": false,
-                                          "isLValue": true,
-                                          "isPure": false,
-                                          "lValueRequested": false,
-                                          "type": "struct Structures.Validation storage ref"
-                                        },
-                                        "children": [
-                                          {
-                                            "attributes": {
-                                              "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
-                                              "referencedDeclaration": 1550,
-                                              "type": "mapping(uint256 => struct Structures.Validation storage ref)",
-                                              "value": "validations"
-                                            },
-                                            "id": 1584,
-                                            "name": "Identifier",
-                                            "src": "437:11:6"
-                                          },
-                                          {
-                                            "attributes": {
-                                              "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
-                                              "referencedDeclaration": 1575,
-                                              "type": "uint256",
-                                              "value": "i"
-                                            },
-                                            "id": 1585,
-                                            "name": "Identifier",
-                                            "src": "449:1:6"
-                                          }
-                                        ],
-                                        "id": 1586,
-                                        "name": "IndexAccess",
-                                        "src": "437:14:6"
-                                      }
-                                    ],
-                                    "id": 1587,
-                                    "name": "MemberAccess",
-                                    "src": "437:25:6"
-                                  },
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "overloadedDeclarations": [
-                                        null
-                                      ],
-                                      "referencedDeclaration": 1564,
-                                      "type": "uint256",
-                                      "value": "_ref_Person"
-                                    },
-                                    "id": 1588,
-                                    "name": "Identifier",
-                                    "src": "466:11:6"
-                                  }
-                                ],
-                                "id": 1589,
-                                "name": "BinaryOperation",
-                                "src": "437:40:6"
+                                "src": "490:42:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_int256",
+                                  "typeString": "int256"
+                                }
                               },
-                              {
-                                "children": [
-                                  {
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "isConstant": false,
-                                          "isLValue": false,
-                                          "isPure": false,
-                                          "lValueRequested": false,
-                                          "operator": "=",
-                                          "type": "int256"
-                                        },
-                                        "children": [
-                                          {
-                                            "attributes": {
-                                              "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
-                                              "referencedDeclaration": 1570,
-                                              "type": "int256",
-                                              "value": "RetVal"
-                                            },
-                                            "id": 1590,
-                                            "name": "Identifier",
-                                            "src": "490:6:6"
-                                          },
-                                          {
-                                            "attributes": {
-                                              "argumentTypes": null,
-                                              "isConstant": false,
-                                              "isLValue": true,
-                                              "isPure": false,
-                                              "lValueRequested": false,
-                                              "member_name": "ref_ValidationFlow",
-                                              "referencedDeclaration": 1499,
-                                              "type": "int256"
-                                            },
-                                            "children": [
-                                              {
-                                                "attributes": {
-                                                  "argumentTypes": null,
-                                                  "isConstant": false,
-                                                  "isLValue": true,
-                                                  "isPure": false,
-                                                  "lValueRequested": false,
-                                                  "type": "struct Structures.Validation storage ref"
-                                                },
-                                                "children": [
-                                                  {
-                                                    "attributes": {
-                                                      "argumentTypes": null,
-                                                      "overloadedDeclarations": [
-                                                        null
-                                                      ],
-                                                      "referencedDeclaration": 1550,
-                                                      "type": "mapping(uint256 => struct Structures.Validation storage ref)",
-                                                      "value": "validations"
-                                                    },
-                                                    "id": 1591,
-                                                    "name": "Identifier",
-                                                    "src": "499:11:6"
-                                                  },
-                                                  {
-                                                    "attributes": {
-                                                      "argumentTypes": null,
-                                                      "overloadedDeclarations": [
-                                                        null
-                                                      ],
-                                                      "referencedDeclaration": 1575,
-                                                      "type": "uint256",
-                                                      "value": "i"
-                                                    },
-                                                    "id": 1592,
-                                                    "name": "Identifier",
-                                                    "src": "511:1:6"
-                                                  }
-                                                ],
-                                                "id": 1593,
-                                                "name": "IndexAccess",
-                                                "src": "499:14:6"
-                                              }
-                                            ],
-                                            "id": 1594,
-                                            "name": "MemberAccess",
-                                            "src": "499:33:6"
-                                          }
-                                        ],
-                                        "id": 1595,
-                                        "name": "Assignment",
-                                        "src": "490:42:6"
-                                      }
-                                    ],
-                                    "id": 1596,
-                                    "name": "ExpressionStatement",
-                                    "src": "490:42:6"
-                                  }
-                                ],
-                                "id": 1597,
-                                "name": "Block",
-                                "src": "479:63:6"
-                              }
-                            ],
-                            "id": 1598,
-                            "name": "IfStatement",
-                            "src": "434:108:6"
-                          }
-                        ],
-                        "id": 1599,
-                        "name": "Block",
-                        "src": "425:124:6"
+                              "id": 1596,
+                              "nodeType": "ExpressionStatement",
+                              "src": "490:42:6"
+                            }
+                          ]
+                        }
                       }
-                    ],
-                    "id": 1600,
-                    "name": "ForStatement",
-                    "src": "380:169:6"
+                    ]
                   },
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 1568
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     },
-                    "children": [
+                    "id": 1580,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 1578,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1575,
+                      "src": "396:1:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 1579,
+                      "name": "ValidationCounter",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1553,
+                      "src": "400:17:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "396:21:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1600,
+                  "initializationExpression": {
+                    "assignments": [
+                      1575
+                    ],
+                    "declarations": [
                       {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "overloadedDeclarations": [
-                            null
-                          ],
-                          "referencedDeclaration": 1570,
-                          "type": "int256",
-                          "value": "RetVal"
+                        "constant": false,
+                        "id": 1575,
+                        "name": "i",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 1604,
+                        "src": "384:6:6",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
                         },
-                        "id": 1601,
-                        "name": "Identifier",
-                        "src": "562:6:6"
+                        "typeName": {
+                          "id": 1574,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "384:4:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "value": null,
+                        "visibility": "internal"
                       }
                     ],
-                    "id": 1602,
-                    "name": "Return",
-                    "src": "555:13:6"
-                  }
-                ],
-                "id": 1603,
-                "name": "Block",
-                "src": "307:269:6"
-              }
-            ],
+                    "id": 1577,
+                    "initialValue": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 1576,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "393:1:6",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "nodeType": "VariableDeclarationStatement",
+                    "src": "384:10:6"
+                  },
+                  "loopExpression": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 1582,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "UnaryOperation",
+                      "operator": "++",
+                      "prefix": false,
+                      "src": "420:3:6",
+                      "subExpression": {
+                        "argumentTypes": null,
+                        "id": 1581,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1575,
+                        "src": "420:1:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1583,
+                    "nodeType": "ExpressionStatement",
+                    "src": "420:3:6"
+                  },
+                  "nodeType": "ForStatement",
+                  "src": "380:169:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1601,
+                    "name": "RetVal",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1570,
+                    "src": "562:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "functionReturnParameters": 1568,
+                  "id": 1602,
+                  "nodeType": "Return",
+                  "src": "555:13:6"
+                }
+              ]
+            },
+            "documentation": null,
             "id": 1604,
-            "name": "FunctionDefinition",
-            "src": "241:335:6"
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getValidation",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1565,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1564,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1604,
+                  "src": "264:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1563,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "264:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "263:18:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1568,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1567,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1604,
+                  "src": "303:3:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 1566,
+                    "name": "int",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "303:3:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "302:5:6"
+            },
+            "scope": 1605,
+            "src": "241:335:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
           }
         ],
-        "id": 1605,
-        "name": "ContractDefinition",
+        "scope": 1606,
         "src": "87:498:6"
       }
     ],
+    "src": "0:587:6"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Validations.sol",
+    "exportedSymbols": {
+      "Validations": [
+        1605
+      ]
+    },
     "id": 1606,
-    "name": "SourceUnit",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1556,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 1557,
+        "nodeType": "ImportDirective",
+        "scope": 1606,
+        "sourceUnit": 401,
+        "src": "30:23:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Structures.sol",
+        "file": "./Structures.sol",
+        "id": 1558,
+        "nodeType": "ImportDirective",
+        "scope": 1606,
+        "sourceUnit": 1555,
+        "src": "55:26:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1559,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 400,
+              "src": "111:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$400",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 1560,
+            "nodeType": "InheritanceSpecifier",
+            "src": "111:7:6"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1561,
+              "name": "Structures",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1554,
+              "src": "120:10:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Structures_$1554",
+                "typeString": "contract Structures"
+              }
+            },
+            "id": 1562,
+            "nodeType": "InheritanceSpecifier",
+            "src": "120:10:6"
+          }
+        ],
+        "contractDependencies": [
+          400,
+          1554
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1605,
+        "linearizedBaseContracts": [
+          1605,
+          1554,
+          400
+        ],
+        "name": "Validations",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 1603,
+              "nodeType": "Block",
+              "src": "307:269:6",
+              "statements": [
+                {
+                  "assignments": [
+                    1570
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1570,
+                      "name": "RetVal",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1604,
+                      "src": "316:10:6",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
+                      },
+                      "typeName": {
+                        "id": 1569,
+                        "name": "int",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "316:3:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int256",
+                          "typeString": "int256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1573,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "id": 1572,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "-",
+                    "prefix": true,
+                    "src": "329:2:6",
+                    "subExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "31",
+                      "id": 1571,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "330:1:6",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_1_by_1",
+                        "typeString": "int_const 1"
+                      },
+                      "value": "1"
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_-1_by_1",
+                      "typeString": "int_const -1"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "316:15:6"
+                },
+                {
+                  "body": {
+                    "id": 1599,
+                    "nodeType": "Block",
+                    "src": "425:124:6",
+                    "statements": [
+                      {
+                        "condition": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1589,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "baseExpression": {
+                                "argumentTypes": null,
+                                "id": 1584,
+                                "name": "validations",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1550,
+                                "src": "437:11:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+                                  "typeString": "mapping(uint256 => struct Structures.Validation storage ref)"
+                                }
+                              },
+                              "id": 1586,
+                              "indexExpression": {
+                                "argumentTypes": null,
+                                "id": 1585,
+                                "name": "i",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1575,
+                                "src": "449:1:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "nodeType": "IndexAccess",
+                              "src": "437:14:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_Validation_$1504_storage",
+                                "typeString": "struct Structures.Validation storage ref"
+                              }
+                            },
+                            "id": 1587,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "ref_Person",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 1497,
+                            "src": "437:25:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "id": 1588,
+                            "name": "_ref_Person",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1564,
+                            "src": "466:11:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "437:40:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "falseBody": null,
+                        "id": 1598,
+                        "nodeType": "IfStatement",
+                        "src": "434:108:6",
+                        "trueBody": {
+                          "id": 1597,
+                          "nodeType": "Block",
+                          "src": "479:63:6",
+                          "statements": [
+                            {
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1595,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "leftHandSide": {
+                                  "argumentTypes": null,
+                                  "id": 1590,
+                                  "name": "RetVal",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1570,
+                                  "src": "490:6:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  }
+                                },
+                                "nodeType": "Assignment",
+                                "operator": "=",
+                                "rightHandSide": {
+                                  "argumentTypes": null,
+                                  "expression": {
+                                    "argumentTypes": null,
+                                    "baseExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1591,
+                                      "name": "validations",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1550,
+                                      "src": "499:11:6",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+                                        "typeString": "mapping(uint256 => struct Structures.Validation storage ref)"
+                                      }
+                                    },
+                                    "id": 1593,
+                                    "indexExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1592,
+                                      "name": "i",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1575,
+                                      "src": "511:1:6",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                      }
+                                    },
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "nodeType": "IndexAccess",
+                                    "src": "499:14:6",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_struct$_Validation_$1504_storage",
+                                      "typeString": "struct Structures.Validation storage ref"
+                                    }
+                                  },
+                                  "id": 1594,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "memberName": "ref_ValidationFlow",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 1499,
+                                  "src": "499:33:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_int256",
+                                    "typeString": "int256"
+                                  }
+                                },
+                                "src": "490:42:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_int256",
+                                  "typeString": "int256"
+                                }
+                              },
+                              "id": 1596,
+                              "nodeType": "ExpressionStatement",
+                              "src": "490:42:6"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 1580,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 1578,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1575,
+                      "src": "396:1:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 1579,
+                      "name": "ValidationCounter",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1553,
+                      "src": "400:17:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "396:21:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1600,
+                  "initializationExpression": {
+                    "assignments": [
+                      1575
+                    ],
+                    "declarations": [
+                      {
+                        "constant": false,
+                        "id": 1575,
+                        "name": "i",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 1604,
+                        "src": "384:6:6",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "typeName": {
+                          "id": 1574,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "384:4:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "value": null,
+                        "visibility": "internal"
+                      }
+                    ],
+                    "id": 1577,
+                    "initialValue": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 1576,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "393:1:6",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "nodeType": "VariableDeclarationStatement",
+                    "src": "384:10:6"
+                  },
+                  "loopExpression": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 1582,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "UnaryOperation",
+                      "operator": "++",
+                      "prefix": false,
+                      "src": "420:3:6",
+                      "subExpression": {
+                        "argumentTypes": null,
+                        "id": 1581,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1575,
+                        "src": "420:1:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1583,
+                    "nodeType": "ExpressionStatement",
+                    "src": "420:3:6"
+                  },
+                  "nodeType": "ForStatement",
+                  "src": "380:169:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1601,
+                    "name": "RetVal",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1570,
+                    "src": "562:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "functionReturnParameters": 1568,
+                  "id": 1602,
+                  "nodeType": "Return",
+                  "src": "555:13:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1604,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getValidation",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1565,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1564,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1604,
+                  "src": "264:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1563,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "264:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "263:18:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1568,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1567,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1604,
+                  "src": "303:3:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 1566,
+                    "name": "int",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "303:3:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "302:5:6"
+            },
+            "scope": 1605,
+            "src": "241:335:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1606,
+        "src": "87:498:6"
+      }
+    ],
     "src": "0:587:6"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "1.0.1",
-  "updatedAt": "2018-07-19T14:41:31.119Z"
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-07-19T16:02:53.548Z"
 }

@@ -91,410 +91,741 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820e1c3c8c0424e76cc7df88933abdd77750c948ea9433518fd8ac7923c7b74a8ae0029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820e1c3c8c0424e76cc7df88933abdd77750c948ea9433518fd8ac7923c7b74a8ae0029",
-  "sourceMap": "28:448:1:-;;;;;;;;;;;;;;;;;",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582004e2d0ad2f4eb94b319eb259c75e08dbcc6cc77bcefc4d33ba9ca6b33c83495c0029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582004e2d0ad2f4eb94b319eb259c75e08dbcc6cc77bcefc4d33ba9ca6b33c83495c0029",
+  "sourceMap": "28:448:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;28:448:1;;;;;;;",
   "deployedSourceMap": "28:448:1:-;;;;;",
-  "source": "pragma solidity ^0.4.18;\r\n\r\ncontract Events {\r\n\r\n\r\n  // events\r\n  event LogAddPerson(uint indexed _ref_Person);\r\n  event LogAddInformation(uint indexed _ref_Person);\r\n  event LogModifyPerson(uint indexed _ref_Person);\r\n  event LogAddValidation(uint indexed _ref_Person, uint _status);\r\n  event LogAddPhoto(uint indexed _ref_Person);\r\n  event LogModifyPhoto(uint indexed _ref_Person);\r\n  event LogValidePhoto(uint indexed _ref_Person);\r\n\r\n\r\n\r\n  //LogAddAdministrator\r\n\r\n\r\n\r\n\r\n}\r\n",
+  "source": "pragma solidity ^0.4.24;\r\n\r\ncontract Events {\r\n\r\n\r\n  // events\r\n  event LogAddPerson(uint indexed _ref_Person);\r\n  event LogAddInformation(uint indexed _ref_Person);\r\n  event LogModifyPerson(uint indexed _ref_Person);\r\n  event LogAddValidation(uint indexed _ref_Person, uint _status);\r\n  event LogAddPhoto(uint indexed _ref_Person);\r\n  event LogModifyPhoto(uint indexed _ref_Person);\r\n  event LogValidePhoto(uint indexed _ref_Person);\r\n\r\n\r\n\r\n  //LogAddAdministrator\r\n\r\n\r\n\r\n\r\n}\r\n",
   "sourcePath": "D:\\ChainSkills\\Training\\IDchain\\contracts\\Events.sol",
   "ast": {
-    "attributes": {
-      "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Events.sol",
-      "exportedSymbols": {
-        "Events": [
-          318
-        ]
-      }
+    "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Events.sol",
+    "exportedSymbols": {
+      "Events": [
+        318
+      ]
     },
-    "children": [
+    "id": 319,
+    "nodeType": "SourceUnit",
+    "nodes": [
       {
-        "attributes": {
-          "literals": [
-            "solidity",
-            "^",
-            "0.4",
-            ".18"
-          ]
-        },
         "id": 287,
-        "name": "PragmaDirective",
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
         "src": "0:24:1"
       },
       {
-        "attributes": {
-          "baseContracts": [
-            null
-          ],
-          "contractDependencies": [
-            null
-          ],
-          "contractKind": "contract",
-          "documentation": null,
-          "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            318
-          ],
-          "name": "Events",
-          "scope": 319
-        },
-        "children": [
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 318,
+        "linearizedBaseContracts": [
+          318
+        ],
+        "name": "Events",
+        "nodeType": "ContractDefinition",
+        "nodes": [
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogAddPerson"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 291,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 288,
-                        "name": "ElementaryTypeName",
-                        "src": "85:4:1"
-                      }
-                    ],
-                    "id": 289,
-                    "name": "VariableDeclaration",
-                    "src": "85:24:1"
-                  }
-                ],
-                "id": 290,
-                "name": "ParameterList",
-                "src": "84:26:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 291,
-            "name": "EventDefinition",
+            "name": "LogAddPerson",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 290,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 289,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 291,
+                  "src": "85:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 288,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "85:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "84:26:1"
+            },
             "src": "66:45:1"
           },
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogAddInformation"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 295,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 292,
-                        "name": "ElementaryTypeName",
-                        "src": "139:4:1"
-                      }
-                    ],
-                    "id": 293,
-                    "name": "VariableDeclaration",
-                    "src": "139:24:1"
-                  }
-                ],
-                "id": 294,
-                "name": "ParameterList",
-                "src": "138:26:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 295,
-            "name": "EventDefinition",
+            "name": "LogAddInformation",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 294,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 293,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 295,
+                  "src": "139:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 292,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "139:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "138:26:1"
+            },
             "src": "115:50:1"
           },
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogModifyPerson"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 299,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 296,
-                        "name": "ElementaryTypeName",
-                        "src": "191:4:1"
-                      }
-                    ],
-                    "id": 297,
-                    "name": "VariableDeclaration",
-                    "src": "191:24:1"
-                  }
-                ],
-                "id": 298,
-                "name": "ParameterList",
-                "src": "190:26:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 299,
-            "name": "EventDefinition",
+            "name": "LogModifyPerson",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 298,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 297,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 299,
+                  "src": "191:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 296,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "191:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "190:26:1"
+            },
             "src": "169:48:1"
           },
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogAddValidation"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 305,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 300,
-                        "name": "ElementaryTypeName",
-                        "src": "244:4:1"
-                      }
-                    ],
-                    "id": 301,
-                    "name": "VariableDeclaration",
-                    "src": "244:24:1"
-                  },
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": false,
-                      "name": "_status",
-                      "scope": 305,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 302,
-                        "name": "ElementaryTypeName",
-                        "src": "270:4:1"
-                      }
-                    ],
-                    "id": 303,
-                    "name": "VariableDeclaration",
-                    "src": "270:12:1"
-                  }
-                ],
-                "id": 304,
-                "name": "ParameterList",
-                "src": "243:40:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 305,
-            "name": "EventDefinition",
+            "name": "LogAddValidation",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 304,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 301,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 305,
+                  "src": "244:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 300,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "244:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 303,
+                  "indexed": false,
+                  "name": "_status",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 305,
+                  "src": "270:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 302,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "270:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "243:40:1"
+            },
             "src": "221:63:1"
           },
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogAddPhoto"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 309,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 306,
-                        "name": "ElementaryTypeName",
-                        "src": "306:4:1"
-                      }
-                    ],
-                    "id": 307,
-                    "name": "VariableDeclaration",
-                    "src": "306:24:1"
-                  }
-                ],
-                "id": 308,
-                "name": "ParameterList",
-                "src": "305:26:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 309,
-            "name": "EventDefinition",
+            "name": "LogAddPhoto",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 308,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 307,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 309,
+                  "src": "306:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 306,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "306:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "305:26:1"
+            },
             "src": "288:44:1"
           },
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogModifyPhoto"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 313,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 310,
-                        "name": "ElementaryTypeName",
-                        "src": "357:4:1"
-                      }
-                    ],
-                    "id": 311,
-                    "name": "VariableDeclaration",
-                    "src": "357:24:1"
-                  }
-                ],
-                "id": 312,
-                "name": "ParameterList",
-                "src": "356:26:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 313,
-            "name": "EventDefinition",
+            "name": "LogModifyPhoto",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 312,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 311,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 313,
+                  "src": "357:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 310,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "357:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "356:26:1"
+            },
             "src": "336:47:1"
           },
           {
-            "attributes": {
-              "anonymous": false,
-              "name": "LogValidePhoto"
-            },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "indexed": true,
-                      "name": "_ref_Person",
-                      "scope": 317,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "uint256",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 314,
-                        "name": "ElementaryTypeName",
-                        "src": "408:4:1"
-                      }
-                    ],
-                    "id": 315,
-                    "name": "VariableDeclaration",
-                    "src": "408:24:1"
-                  }
-                ],
-                "id": 316,
-                "name": "ParameterList",
-                "src": "407:26:1"
-              }
-            ],
+            "anonymous": false,
+            "documentation": null,
             "id": 317,
-            "name": "EventDefinition",
+            "name": "LogValidePhoto",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 316,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 315,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 317,
+                  "src": "408:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 314,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "408:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "407:26:1"
+            },
             "src": "387:47:1"
           }
         ],
-        "id": 318,
-        "name": "ContractDefinition",
+        "scope": 319,
         "src": "28:448:1"
       }
     ],
+    "src": "0:478:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Events.sol",
+    "exportedSymbols": {
+      "Events": [
+        318
+      ]
+    },
     "id": 319,
-    "name": "SourceUnit",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 287,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 318,
+        "linearizedBaseContracts": [
+          318
+        ],
+        "name": "Events",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 291,
+            "name": "LogAddPerson",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 290,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 289,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 291,
+                  "src": "85:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 288,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "85:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "84:26:1"
+            },
+            "src": "66:45:1"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 295,
+            "name": "LogAddInformation",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 294,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 293,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 295,
+                  "src": "139:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 292,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "139:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "138:26:1"
+            },
+            "src": "115:50:1"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 299,
+            "name": "LogModifyPerson",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 298,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 297,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 299,
+                  "src": "191:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 296,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "191:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "190:26:1"
+            },
+            "src": "169:48:1"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 305,
+            "name": "LogAddValidation",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 304,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 301,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 305,
+                  "src": "244:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 300,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "244:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 303,
+                  "indexed": false,
+                  "name": "_status",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 305,
+                  "src": "270:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 302,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "270:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "243:40:1"
+            },
+            "src": "221:63:1"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 309,
+            "name": "LogAddPhoto",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 308,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 307,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 309,
+                  "src": "306:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 306,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "306:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "305:26:1"
+            },
+            "src": "288:44:1"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 313,
+            "name": "LogModifyPhoto",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 312,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 311,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 313,
+                  "src": "357:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 310,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "357:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "356:26:1"
+            },
+            "src": "336:47:1"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 317,
+            "name": "LogValidePhoto",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 316,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 315,
+                  "indexed": true,
+                  "name": "_ref_Person",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 317,
+                  "src": "408:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 314,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "408:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "407:26:1"
+            },
+            "src": "387:47:1"
+          }
+        ],
+        "scope": 319,
+        "src": "28:448:1"
+      }
+    ],
     "src": "0:478:1"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "1.0.1",
-  "updatedAt": "2018-07-19T14:41:31.111Z"
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-07-19T16:02:53.521Z"
 }

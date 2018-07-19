@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 // -----------------------------------------------------------------------------
 // ID Blockchain PoC - Principal contract
@@ -237,7 +237,7 @@ contract PersonList is Ownable, Structures, Events, Validations, Autorizations {
       msg.sender, _ref_Person, _PhotoEncoding, _PhotoBlob, false);
 
     // Add log
-    LogAddPhoto(_ref_Person);
+    emit LogAddPhoto(_ref_Person);
     PhotoCounter++;
   }
 
@@ -257,7 +257,7 @@ contract PersonList is Ownable, Structures, Events, Validations, Autorizations {
       msg.sender, _ref_Person, _PhotoEncoding, _PhotoBlob, false);
 
     // Add log
-    LogModifyPhoto(_ref_Person);
+    emit LogModifyPhoto(_ref_Person);
   }
 
 
@@ -348,7 +348,7 @@ contract PersonList is Ownable, Structures, Events, Validations, Autorizations {
         _ref_Person, 0, msg.sender, _ValDate);
 
     // Add log
-    LogAddValidation(_ref_Person, 0);
+    emit LogAddValidation(_ref_Person, 0);
     ValidationCounter++;
   }
 
@@ -363,7 +363,7 @@ contract PersonList is Ownable, Structures, Events, Validations, Autorizations {
         _ref_Person, 1, msg.sender, _ValDate);
 
     // Add log
-    LogAddValidation(_ref_Person, 1);
+    emit LogAddValidation(_ref_Person, 1);
     ValidationCounter++;
   }
 
@@ -380,7 +380,7 @@ contract PersonList is Ownable, Structures, Events, Validations, Autorizations {
        photos[_ref_photo].PhotoEncoding, photos[_ref_photo].PhotoBlob, true);
 
     // Add log
-    LogValidePhoto(_ref_Person);
+    emit LogValidePhoto(_ref_Person);
   }
 
 

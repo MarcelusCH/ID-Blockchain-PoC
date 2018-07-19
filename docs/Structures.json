@@ -1,1178 +1,2303 @@
 {
   "contractName": "Structures",
   "abi": [],
-  "bytecode": "0x606060405260006001556000600355600060055560006007553415602257600080fd5b603580602f6000396000f3006060604052600080fd00a165627a7a72305820d926120cb4d5eb99eba77b4fc3482312d2b268b6c590d9eaf91096ecb95a750e0029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820d926120cb4d5eb99eba77b4fc3482312d2b268b6c590d9eaf91096ecb95a750e0029",
-  "sourceMap": "32:3089:5:-;;;2869:1;2848:22;;2932:1;2912:21;;3032:1;2999:34;;3110:1;3085:26;;32:3089;;;;;;;;;;;;;;",
+  "bytecode": "0x60806040526000600155600060035560006005556000600755348015602357600080fd5b5060358060316000396000f3006080604052600080fd00a165627a7a72305820c3c7e899dc648afe9b4d938677ba67afb5a414e7f6ba9d08e0b0b891de5fad700029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820c3c7e899dc648afe9b4d938677ba67afb5a414e7f6ba9d08e0b0b891de5fad700029",
+  "sourceMap": "32:3089:5:-;;;2869:1;2848:22;;2932:1;2912:21;;3032:1;2999:34;;3110:1;3085:26;;32:3089;8:9:-1;5:2;;;30:1;27;20:12;5:2;32:3089:5;;;;;;;",
   "deployedSourceMap": "32:3089:5:-;;;;;",
-  "source": "pragma solidity ^0.4.18;\r\n\r\n\r\n\r\ncontract Structures {\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // Profil informations structures\r\n  // ---------------------------------------------------------------------------\r\n\r\n  struct Person {         // Person Item storage\r\n    uint id;              // 0 - Person Identifier / zero to infiny\r\n    address creator;      // 1 - ETH Address of the creator\r\n    string Name;          // 2 - \"THE FULL FAMILLY ACTUAL NAME\"\r\n    string givenName;     // 3 - All given names ex.: \"Name Second-Name\"\r\n    string gender;        // 4 - \"F\" or \"M\"\r\n    string birthDate;     // 5 - \"1954-12-18\"\r\n  }\r\n\r\n  struct Photo {            // Photo informations storage\r\n    uint id;\r\n    address creator;\r\n    uint ref_Person;\r\n    string PhotoEncoding;   // Encoding information\r\n    string PhotoBlob;\r\n    bool ownerValidate;     //\r\n  }\r\n\r\n\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // Profil validation workflow\r\n  // ---------------------------------------------------------------------------\r\n  // Info:  The Person item will only be \"valid\" if all ValidationFlow are\r\n  //        in the Validation storage (for each Person).\r\n  //        'ValidationFlow' is hard coded yet !\r\n\r\n  struct Validation{\r\n    uint id;\r\n    uint ref_Person;\r\n    int ref_ValidationFlow;     // 0=In validation, 1=vaidated\r\n    address CheckedBy;\r\n    string ValDate;             //\"2008-10-14\"\r\n  }\r\n\r\n  struct ValidationFlow {      //  !!! Not used yet !!\r\n    uint id;                   // The check begin by 0 and go to next until end\r\n    string CheckName;\r\n    string CheckDescription;\r\n\r\n  }\r\n\r\n  struct ValidationFlowChecker {  // Multi Checker possible for the flows\r\n    uint id;\r\n    uint ref_ValidationFlow  ;\r\n    address Checker;\r\n  }\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // System & ITEM autorisation\r\n  // ---------------------------------------------------------------------------\r\n\r\n  struct SystemAutorization {    // Administrator storage\r\n   uint id;\r\n   // 0=Blacklisted, 1=Read Only, 2=R/W, 9=ADMIN\r\n   uint ref_AutorizationType;   // Reference of an system autorization type\r\n   address autorizedAddress;    // Autorized Address to make action\r\n  }\r\n\r\n\r\n\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // Storage/structure maping\r\n  // ---------------------------------------------------------------------------\r\n  // Info:  0 based - The first item as the id 0 and is stored at persons[0].id\r\n  //        The structure 'Person', 'Photo' and 'SystemAutorization'\r\n  //        are NOT public. Can only be called in the contract.\r\n  //        The other table are not secure for now.\r\n\r\n  mapping (uint => Person) persons;\r\n  uint PersonCounter = 0;\r\n\r\n  mapping (uint => Photo) photos;\r\n  uint PhotoCounter = 0;\r\n\r\n  mapping (uint => SystemAutorization) Sys_autorizations;\r\n  uint SystemAutorizationCounter = 0;\r\n\r\n  mapping (uint => Validation) validations;\r\n  uint ValidationCounter = 0;\r\n\r\n\r\n\r\n}\r\n",
+  "source": "pragma solidity ^0.4.24;\r\n\r\n\r\n\r\ncontract Structures {\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // Profil informations structures\r\n  // ---------------------------------------------------------------------------\r\n\r\n  struct Person {         // Person Item storage\r\n    uint id;              // 0 - Person Identifier / zero to infiny\r\n    address creator;      // 1 - ETH Address of the creator\r\n    string Name;          // 2 - \"THE FULL FAMILLY ACTUAL NAME\"\r\n    string givenName;     // 3 - All given names ex.: \"Name Second-Name\"\r\n    string gender;        // 4 - \"F\" or \"M\"\r\n    string birthDate;     // 5 - \"1954-12-18\"\r\n  }\r\n\r\n  struct Photo {            // Photo informations storage\r\n    uint id;\r\n    address creator;\r\n    uint ref_Person;\r\n    string PhotoEncoding;   // Encoding information\r\n    string PhotoBlob;\r\n    bool ownerValidate;     //\r\n  }\r\n\r\n\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // Profil validation workflow\r\n  // ---------------------------------------------------------------------------\r\n  // Info:  The Person item will only be \"valid\" if all ValidationFlow are\r\n  //        in the Validation storage (for each Person).\r\n  //        'ValidationFlow' is hard coded yet !\r\n\r\n  struct Validation{\r\n    uint id;\r\n    uint ref_Person;\r\n    int ref_ValidationFlow;     // 0=In validation, 1=vaidated\r\n    address CheckedBy;\r\n    string ValDate;             //\"2008-10-14\"\r\n  }\r\n\r\n  struct ValidationFlow {      //  !!! Not used yet !!\r\n    uint id;                   // The check begin by 0 and go to next until end\r\n    string CheckName;\r\n    string CheckDescription;\r\n\r\n  }\r\n\r\n  struct ValidationFlowChecker {  // Multi Checker possible for the flows\r\n    uint id;\r\n    uint ref_ValidationFlow  ;\r\n    address Checker;\r\n  }\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // System & ITEM autorisation\r\n  // ---------------------------------------------------------------------------\r\n\r\n  struct SystemAutorization {    // Administrator storage\r\n   uint id;\r\n   // 0=Blacklisted, 1=Read Only, 2=R/W, 9=ADMIN\r\n   uint ref_AutorizationType;   // Reference of an system autorization type\r\n   address autorizedAddress;    // Autorized Address to make action\r\n  }\r\n\r\n\r\n\r\n\r\n\r\n\r\n  // ---------------------------------------------------------------------------\r\n  // Storage/structure maping\r\n  // ---------------------------------------------------------------------------\r\n  // Info:  0 based - The first item as the id 0 and is stored at persons[0].id\r\n  //        The structure 'Person', 'Photo' and 'SystemAutorization'\r\n  //        are NOT public. Can only be called in the contract.\r\n  //        The other table are not secure for now.\r\n\r\n  mapping (uint => Person) persons;\r\n  uint PersonCounter = 0;\r\n\r\n  mapping (uint => Photo) photos;\r\n  uint PhotoCounter = 0;\r\n\r\n  mapping (uint => SystemAutorization) Sys_autorizations;\r\n  uint SystemAutorizationCounter = 0;\r\n\r\n  mapping (uint => Validation) validations;\r\n  uint ValidationCounter = 0;\r\n\r\n\r\n\r\n}\r\n",
   "sourcePath": "D:\\ChainSkills\\Training\\IDchain\\contracts\\Structures.sol",
   "ast": {
-    "attributes": {
-      "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Structures.sol",
-      "exportedSymbols": {
-        "Structures": [
-          1554
-        ]
-      }
+    "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Structures.sol",
+    "exportedSymbols": {
+      "Structures": [
+        1554
+      ]
     },
-    "children": [
+    "id": 1555,
+    "nodeType": "SourceUnit",
+    "nodes": [
       {
-        "attributes": {
-          "literals": [
-            "solidity",
-            "^",
-            "0.4",
-            ".18"
-          ]
-        },
         "id": 1467,
-        "name": "PragmaDirective",
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
         "src": "0:24:5"
       },
       {
-        "attributes": {
-          "baseContracts": [
-            null
-          ],
-          "contractDependencies": [
-            null
-          ],
-          "contractKind": "contract",
-          "documentation": null,
-          "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            1554
-          ],
-          "name": "Structures",
-          "scope": 1555
-        },
-        "children": [
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1554,
+        "linearizedBaseContracts": [
+          1554
+        ],
+        "name": "Structures",
+        "nodeType": "ContractDefinition",
+        "nodes": [
           {
-            "attributes": {
-              "canonicalName": "Structures.Person",
-              "name": "Person",
-              "scope": 1554,
-              "visibility": "public"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "constant": false,
-                  "name": "id",
-                  "scope": 1480,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1468,
-                    "name": "ElementaryTypeName",
-                    "src": "318:4:5"
-                  }
-                ],
-                "id": 1469,
-                "name": "VariableDeclaration",
-                "src": "318:7:5"
-              },
-              {
-                "attributes": {
-                  "constant": false,
-                  "name": "creator",
-                  "scope": 1480,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 1470,
-                    "name": "ElementaryTypeName",
-                    "src": "387:7:5"
-                  }
-                ],
-                "id": 1471,
-                "name": "VariableDeclaration",
-                "src": "387:15:5"
-              },
-              {
-                "attributes": {
-                  "constant": false,
-                  "name": "Name",
-                  "scope": 1480,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1472,
-                    "name": "ElementaryTypeName",
-                    "src": "448:6:5"
-                  }
-                ],
-                "id": 1473,
-                "name": "VariableDeclaration",
-                "src": "448:11:5"
-              },
-              {
-                "attributes": {
-                  "constant": false,
-                  "name": "givenName",
-                  "scope": 1480,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1474,
-                    "name": "ElementaryTypeName",
-                    "src": "513:6:5"
-                  }
-                ],
-                "id": 1475,
-                "name": "VariableDeclaration",
-                "src": "513:16:5"
-              },
-              {
-                "attributes": {
-                  "constant": false,
-                  "name": "gender",
-                  "scope": 1480,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1476,
-                    "name": "ElementaryTypeName",
-                    "src": "587:6:5"
-                  }
-                ],
-                "id": 1477,
-                "name": "VariableDeclaration",
-                "src": "587:13:5"
-              },
-              {
-                "attributes": {
-                  "constant": false,
-                  "name": "birthDate",
-                  "scope": 1480,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1478,
-                    "name": "ElementaryTypeName",
-                    "src": "632:6:5"
-                  }
-                ],
-                "id": 1479,
-                "name": "VariableDeclaration",
-                "src": "632:16:5"
-              }
-            ],
+            "canonicalName": "Structures.Person",
             "id": 1480,
-            "name": "StructDefinition",
-            "src": "266:412:5"
-          },
-          {
-            "attributes": {
-              "canonicalName": "Structures.Photo",
-              "name": "Photo",
-              "scope": 1554,
-              "visibility": "public"
-            },
-            "children": [
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "id",
-                  "scope": 1493,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1469,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "318:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1481,
-                    "name": "ElementaryTypeName",
-                    "src": "745:4:5"
+                "typeName": {
+                  "id": 1468,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "318:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1482,
-                "name": "VariableDeclaration",
-                "src": "745:7:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "creator",
-                  "scope": 1493,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1471,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "387:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 1483,
-                    "name": "ElementaryTypeName",
-                    "src": "759:7:5"
+                "typeName": {
+                  "id": 1470,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "387:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
                   }
-                ],
-                "id": 1484,
-                "name": "VariableDeclaration",
-                "src": "759:15:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ref_Person",
-                  "scope": 1493,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1473,
+                "name": "Name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "448:11:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1485,
-                    "name": "ElementaryTypeName",
-                    "src": "781:4:5"
+                "typeName": {
+                  "id": 1472,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "448:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1486,
-                "name": "VariableDeclaration",
-                "src": "781:15:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "PhotoEncoding",
-                  "scope": 1493,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1475,
+                "name": "givenName",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "513:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1487,
-                    "name": "ElementaryTypeName",
-                    "src": "803:6:5"
+                "typeName": {
+                  "id": 1474,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "513:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1488,
-                "name": "VariableDeclaration",
-                "src": "803:20:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "PhotoBlob",
-                  "scope": 1493,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1477,
+                "name": "gender",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "587:13:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1489,
-                    "name": "ElementaryTypeName",
-                    "src": "856:6:5"
+                "typeName": {
+                  "id": 1476,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "587:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1490,
-                "name": "VariableDeclaration",
-                "src": "856:16:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ownerValidate",
-                  "scope": 1493,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "bool",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1479,
+                "name": "birthDate",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "632:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "bool",
-                      "type": "bool"
-                    },
-                    "id": 1491,
-                    "name": "ElementaryTypeName",
-                    "src": "879:4:5"
+                "typeName": {
+                  "id": 1478,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "632:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1492,
-                "name": "VariableDeclaration",
-                "src": "879:18:5"
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
+            "name": "Person",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "266:412:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.Photo",
             "id": 1493,
-            "name": "StructDefinition",
-            "src": "684:226:5"
-          },
-          {
-            "attributes": {
-              "canonicalName": "Structures.Validation",
-              "name": "Validation",
-              "scope": 1554,
-              "visibility": "public"
-            },
-            "children": [
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "id",
-                  "scope": 1504,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1482,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "745:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1494,
-                    "name": "ElementaryTypeName",
-                    "src": "1331:4:5"
+                "typeName": {
+                  "id": 1481,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "745:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1495,
-                "name": "VariableDeclaration",
-                "src": "1331:7:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ref_Person",
-                  "scope": 1504,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1484,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "759:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1496,
-                    "name": "ElementaryTypeName",
-                    "src": "1345:4:5"
+                "typeName": {
+                  "id": 1483,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "759:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
                   }
-                ],
-                "id": 1497,
-                "name": "VariableDeclaration",
-                "src": "1345:15:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ref_ValidationFlow",
-                  "scope": 1504,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "int256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1486,
+                "name": "ref_Person",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "781:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "int",
-                      "type": "int256"
-                    },
-                    "id": 1498,
-                    "name": "ElementaryTypeName",
-                    "src": "1367:3:5"
+                "typeName": {
+                  "id": 1485,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "781:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1499,
-                "name": "VariableDeclaration",
-                "src": "1367:22:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "CheckedBy",
-                  "scope": 1504,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1488,
+                "name": "PhotoEncoding",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "803:20:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 1500,
-                    "name": "ElementaryTypeName",
-                    "src": "1431:7:5"
+                "typeName": {
+                  "id": 1487,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "803:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1501,
-                "name": "VariableDeclaration",
-                "src": "1431:17:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ValDate",
-                  "scope": 1504,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1490,
+                "name": "PhotoBlob",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "856:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1502,
-                    "name": "ElementaryTypeName",
-                    "src": "1455:6:5"
+                "typeName": {
+                  "id": 1489,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "856:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1503,
-                "name": "VariableDeclaration",
-                "src": "1455:14:5"
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1492,
+                "name": "ownerValidate",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "879:18:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1491,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "879:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
+            "name": "Photo",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "684:226:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.Validation",
             "id": 1504,
-            "name": "StructDefinition",
-            "src": "1307:195:5"
-          },
-          {
-            "attributes": {
-              "canonicalName": "Structures.ValidationFlow",
-              "name": "ValidationFlow",
-              "scope": 1554,
-              "visibility": "public"
-            },
-            "children": [
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "id",
-                  "scope": 1511,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1495,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1331:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1505,
-                    "name": "ElementaryTypeName",
-                    "src": "1566:4:5"
+                "typeName": {
+                  "id": 1494,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1331:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1506,
-                "name": "VariableDeclaration",
-                "src": "1566:7:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "CheckName",
-                  "scope": 1511,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1497,
+                "name": "ref_Person",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1345:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1507,
-                    "name": "ElementaryTypeName",
-                    "src": "1647:6:5"
+                "typeName": {
+                  "id": 1496,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1345:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1508,
-                "name": "VariableDeclaration",
-                "src": "1647:16:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "CheckDescription",
-                  "scope": 1511,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1499,
+                "name": "ref_ValidationFlow",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1367:22:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_int256",
+                  "typeString": "int256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 1509,
-                    "name": "ElementaryTypeName",
-                    "src": "1670:6:5"
+                "typeName": {
+                  "id": 1498,
+                  "name": "int",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1367:3:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
                   }
-                ],
-                "id": 1510,
-                "name": "VariableDeclaration",
-                "src": "1670:23:5"
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1501,
+                "name": "CheckedBy",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1431:17:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1500,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1431:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1503,
+                "name": "ValDate",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1455:14:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1502,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1455:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
+            "name": "Validation",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "1307:195:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.ValidationFlow",
             "id": 1511,
-            "name": "StructDefinition",
-            "src": "1508:193:5"
-          },
-          {
-            "attributes": {
-              "canonicalName": "Structures.ValidationFlowChecker",
-              "name": "ValidationFlowChecker",
-              "scope": 1554,
-              "visibility": "public"
-            },
-            "children": [
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "id",
-                  "scope": 1518,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1506,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1511,
+                "src": "1566:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1512,
-                    "name": "ElementaryTypeName",
-                    "src": "1784:4:5"
+                "typeName": {
+                  "id": 1505,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1566:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1513,
-                "name": "VariableDeclaration",
-                "src": "1784:7:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ref_ValidationFlow",
-                  "scope": 1518,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1508,
+                "name": "CheckName",
+                "nodeType": "VariableDeclaration",
+                "scope": 1511,
+                "src": "1647:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1514,
-                    "name": "ElementaryTypeName",
-                    "src": "1798:4:5"
+                "typeName": {
+                  "id": 1507,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1647:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1515,
-                "name": "VariableDeclaration",
-                "src": "1798:23:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "Checker",
-                  "scope": 1518,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1510,
+                "name": "CheckDescription",
+                "nodeType": "VariableDeclaration",
+                "scope": 1511,
+                "src": "1670:23:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 1516,
-                    "name": "ElementaryTypeName",
-                    "src": "1830:7:5"
+                "typeName": {
+                  "id": 1509,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1670:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
                   }
-                ],
-                "id": 1517,
-                "name": "VariableDeclaration",
-                "src": "1830:15:5"
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
+            "name": "ValidationFlow",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "1508:193:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.ValidationFlowChecker",
             "id": 1518,
-            "name": "StructDefinition",
-            "src": "1707:144:5"
-          },
-          {
-            "attributes": {
-              "canonicalName": "Structures.SystemAutorization",
-              "name": "SystemAutorization",
-              "scope": 1554,
-              "visibility": "public"
-            },
-            "children": [
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "id",
-                  "scope": 1525,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1513,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1518,
+                "src": "1784:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1519,
-                    "name": "ElementaryTypeName",
-                    "src": "2120:4:5"
+                "typeName": {
+                  "id": 1512,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1784:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1520,
-                "name": "VariableDeclaration",
-                "src": "2120:7:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "ref_AutorizationType",
-                  "scope": 1525,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1515,
+                "name": "ref_ValidationFlow",
+                "nodeType": "VariableDeclaration",
+                "scope": 1518,
+                "src": "1798:23:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1521,
-                    "name": "ElementaryTypeName",
-                    "src": "2183:4:5"
+                "typeName": {
+                  "id": 1514,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1798:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1522,
-                "name": "VariableDeclaration",
-                "src": "2183:25:5"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "autorizedAddress",
-                  "scope": 1525,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1517,
+                "name": "Checker",
+                "nodeType": "VariableDeclaration",
+                "scope": 1518,
+                "src": "1830:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 1523,
-                    "name": "ElementaryTypeName",
-                    "src": "2260:7:5"
+                "typeName": {
+                  "id": 1516,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1830:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
                   }
-                ],
-                "id": 1524,
-                "name": "VariableDeclaration",
-                "src": "2260:24:5"
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
+            "name": "ValidationFlowChecker",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "1707:144:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.SystemAutorization",
             "id": 1525,
-            "name": "StructDefinition",
-            "src": "2060:269:5"
-          },
-          {
-            "attributes": {
-              "constant": false,
-              "name": "persons",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "mapping(uint256 => struct Structures.Person storage ref)",
-              "value": null,
-              "visibility": "internal"
-            },
-            "children": [
+            "members": [
               {
-                "attributes": {
-                  "type": "mapping(uint256 => struct Structures.Person storage ref)"
+                "constant": false,
+                "id": 1520,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1525,
+                "src": "2120:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1526,
-                    "name": "ElementaryTypeName",
-                    "src": "2820:4:5"
-                  },
-                  {
-                    "attributes": {
-                      "contractScope": null,
-                      "name": "Person",
-                      "referencedDeclaration": 1480,
-                      "type": "struct Structures.Person storage pointer"
-                    },
-                    "id": 1527,
-                    "name": "UserDefinedTypeName",
-                    "src": "2828:6:5"
+                "typeName": {
+                  "id": 1519,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2120:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 1528,
-                "name": "Mapping",
-                "src": "2811:24:5"
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1522,
+                "name": "ref_AutorizationType",
+                "nodeType": "VariableDeclaration",
+                "scope": 1525,
+                "src": "2183:25:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1521,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2183:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1524,
+                "name": "autorizedAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 1525,
+                "src": "2260:24:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1523,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2260:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
+            "name": "SystemAutorization",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "2060:269:5",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
             "id": 1529,
-            "name": "VariableDeclaration",
-            "src": "2811:32:5"
+            "name": "persons",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2811:32:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Person_$1480_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.Person)"
+            },
+            "typeName": {
+              "id": 1528,
+              "keyType": {
+                "id": 1526,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "2820:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "2811:24:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Person_$1480_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.Person)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1527,
+                "name": "Person",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1480,
+                "src": "2828:6:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Person_$1480_storage_ptr",
+                  "typeString": "struct Structures.Person"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
           },
           {
-            "attributes": {
-              "constant": false,
-              "name": "PersonCounter",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "uint256",
-              "visibility": "internal"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "name": "uint",
-                  "type": "uint256"
-                },
-                "id": 1530,
-                "name": "ElementaryTypeName",
-                "src": "2848:4:5"
-              },
-              {
-                "attributes": {
-                  "argumentTypes": null,
-                  "hexvalue": "30",
-                  "isConstant": false,
-                  "isLValue": false,
-                  "isPure": true,
-                  "lValueRequested": false,
-                  "subdenomination": null,
-                  "token": "number",
-                  "type": "int_const 0",
-                  "value": "0"
-                },
-                "id": 1531,
-                "name": "Literal",
-                "src": "2869:1:5"
-              }
-            ],
+            "constant": false,
             "id": 1532,
-            "name": "VariableDeclaration",
-            "src": "2848:22:5"
+            "name": "PersonCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2848:22:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1530,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2848:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1531,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2869:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
           },
           {
-            "attributes": {
-              "constant": false,
-              "name": "photos",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "mapping(uint256 => struct Structures.Photo storage ref)",
-              "value": null,
-              "visibility": "internal"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "type": "mapping(uint256 => struct Structures.Photo storage ref)"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1533,
-                    "name": "ElementaryTypeName",
-                    "src": "2886:4:5"
-                  },
-                  {
-                    "attributes": {
-                      "contractScope": null,
-                      "name": "Photo",
-                      "referencedDeclaration": 1493,
-                      "type": "struct Structures.Photo storage pointer"
-                    },
-                    "id": 1534,
-                    "name": "UserDefinedTypeName",
-                    "src": "2894:5:5"
-                  }
-                ],
-                "id": 1535,
-                "name": "Mapping",
-                "src": "2877:23:5"
-              }
-            ],
+            "constant": false,
             "id": 1536,
-            "name": "VariableDeclaration",
-            "src": "2877:30:5"
+            "name": "photos",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2877:30:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Photo_$1493_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.Photo)"
+            },
+            "typeName": {
+              "id": 1535,
+              "keyType": {
+                "id": 1533,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "2886:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "2877:23:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Photo_$1493_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.Photo)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1534,
+                "name": "Photo",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1493,
+                "src": "2894:5:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Photo_$1493_storage_ptr",
+                  "typeString": "struct Structures.Photo"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
           },
           {
-            "attributes": {
-              "constant": false,
-              "name": "PhotoCounter",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "uint256",
-              "visibility": "internal"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "name": "uint",
-                  "type": "uint256"
-                },
-                "id": 1537,
-                "name": "ElementaryTypeName",
-                "src": "2912:4:5"
-              },
-              {
-                "attributes": {
-                  "argumentTypes": null,
-                  "hexvalue": "30",
-                  "isConstant": false,
-                  "isLValue": false,
-                  "isPure": true,
-                  "lValueRequested": false,
-                  "subdenomination": null,
-                  "token": "number",
-                  "type": "int_const 0",
-                  "value": "0"
-                },
-                "id": 1538,
-                "name": "Literal",
-                "src": "2932:1:5"
-              }
-            ],
+            "constant": false,
             "id": 1539,
-            "name": "VariableDeclaration",
-            "src": "2912:21:5"
+            "name": "PhotoCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2912:21:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1537,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2912:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1538,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2932:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
           },
           {
-            "attributes": {
-              "constant": false,
-              "name": "Sys_autorizations",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "mapping(uint256 => struct Structures.SystemAutorization storage ref)",
-              "value": null,
-              "visibility": "internal"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "type": "mapping(uint256 => struct Structures.SystemAutorization storage ref)"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1540,
-                    "name": "ElementaryTypeName",
-                    "src": "2949:4:5"
-                  },
-                  {
-                    "attributes": {
-                      "contractScope": null,
-                      "name": "SystemAutorization",
-                      "referencedDeclaration": 1525,
-                      "type": "struct Structures.SystemAutorization storage pointer"
-                    },
-                    "id": 1541,
-                    "name": "UserDefinedTypeName",
-                    "src": "2957:18:5"
-                  }
-                ],
-                "id": 1542,
-                "name": "Mapping",
-                "src": "2940:36:5"
-              }
-            ],
+            "constant": false,
             "id": 1543,
-            "name": "VariableDeclaration",
-            "src": "2940:54:5"
+            "name": "Sys_autorizations",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2940:54:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_SystemAutorization_$1525_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.SystemAutorization)"
+            },
+            "typeName": {
+              "id": 1542,
+              "keyType": {
+                "id": 1540,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "2949:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "2940:36:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_SystemAutorization_$1525_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.SystemAutorization)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1541,
+                "name": "SystemAutorization",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1525,
+                "src": "2957:18:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_SystemAutorization_$1525_storage_ptr",
+                  "typeString": "struct Structures.SystemAutorization"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
           },
           {
-            "attributes": {
-              "constant": false,
-              "name": "SystemAutorizationCounter",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "uint256",
-              "visibility": "internal"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "name": "uint",
-                  "type": "uint256"
-                },
-                "id": 1544,
-                "name": "ElementaryTypeName",
-                "src": "2999:4:5"
-              },
-              {
-                "attributes": {
-                  "argumentTypes": null,
-                  "hexvalue": "30",
-                  "isConstant": false,
-                  "isLValue": false,
-                  "isPure": true,
-                  "lValueRequested": false,
-                  "subdenomination": null,
-                  "token": "number",
-                  "type": "int_const 0",
-                  "value": "0"
-                },
-                "id": 1545,
-                "name": "Literal",
-                "src": "3032:1:5"
-              }
-            ],
+            "constant": false,
             "id": 1546,
-            "name": "VariableDeclaration",
-            "src": "2999:34:5"
-          },
-          {
-            "attributes": {
-              "constant": false,
-              "name": "validations",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "mapping(uint256 => struct Structures.Validation storage ref)",
-              "value": null,
-              "visibility": "internal"
+            "name": "SystemAutorizationCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2999:34:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
             },
-            "children": [
-              {
-                "attributes": {
-                  "type": "mapping(uint256 => struct Structures.Validation storage ref)"
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 1547,
-                    "name": "ElementaryTypeName",
-                    "src": "3049:4:5"
-                  },
-                  {
-                    "attributes": {
-                      "contractScope": null,
-                      "name": "Validation",
-                      "referencedDeclaration": 1504,
-                      "type": "struct Structures.Validation storage pointer"
-                    },
-                    "id": 1548,
-                    "name": "UserDefinedTypeName",
-                    "src": "3057:10:5"
-                  }
-                ],
-                "id": 1549,
-                "name": "Mapping",
-                "src": "3040:28:5"
+            "typeName": {
+              "id": 1544,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2999:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
               }
-            ],
-            "id": 1550,
-            "name": "VariableDeclaration",
-            "src": "3040:40:5"
-          },
-          {
-            "attributes": {
-              "constant": false,
-              "name": "ValidationCounter",
-              "scope": 1554,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "uint256",
-              "visibility": "internal"
             },
-            "children": [
-              {
-                "attributes": {
-                  "name": "uint",
-                  "type": "uint256"
-                },
-                "id": 1551,
-                "name": "ElementaryTypeName",
-                "src": "3085:4:5"
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1545,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "3032:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
               },
-              {
-                "attributes": {
-                  "argumentTypes": null,
-                  "hexvalue": "30",
-                  "isConstant": false,
-                  "isLValue": false,
-                  "isPure": true,
-                  "lValueRequested": false,
-                  "subdenomination": null,
-                  "token": "number",
-                  "type": "int_const 0",
-                  "value": "0"
-                },
-                "id": 1552,
-                "name": "Literal",
-                "src": "3110:1:5"
+              "value": "0"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1550,
+            "name": "validations",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "3040:40:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.Validation)"
+            },
+            "typeName": {
+              "id": 1549,
+              "keyType": {
+                "id": 1547,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "3049:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "3040:28:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.Validation)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1548,
+                "name": "Validation",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1504,
+                "src": "3057:10:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Validation_$1504_storage_ptr",
+                  "typeString": "struct Structures.Validation"
+                }
               }
-            ],
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
             "id": 1553,
-            "name": "VariableDeclaration",
-            "src": "3085:26:5"
+            "name": "ValidationCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "3085:26:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1551,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "3085:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1552,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "3110:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
           }
         ],
-        "id": 1554,
-        "name": "ContractDefinition",
+        "scope": 1555,
         "src": "32:3089:5"
       }
     ],
+    "src": "0:3123:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/ChainSkills/Training/IDchain/contracts/Structures.sol",
+    "exportedSymbols": {
+      "Structures": [
+        1554
+      ]
+    },
     "id": 1555,
-    "name": "SourceUnit",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1467,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:5"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1554,
+        "linearizedBaseContracts": [
+          1554
+        ],
+        "name": "Structures",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Structures.Person",
+            "id": 1480,
+            "members": [
+              {
+                "constant": false,
+                "id": 1469,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "318:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1468,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "318:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1471,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "387:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1470,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "387:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1473,
+                "name": "Name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "448:11:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1472,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "448:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1475,
+                "name": "givenName",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "513:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1474,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "513:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1477,
+                "name": "gender",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "587:13:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1476,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "587:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1479,
+                "name": "birthDate",
+                "nodeType": "VariableDeclaration",
+                "scope": 1480,
+                "src": "632:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1478,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "632:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Person",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "266:412:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.Photo",
+            "id": 1493,
+            "members": [
+              {
+                "constant": false,
+                "id": 1482,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "745:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1481,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "745:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1484,
+                "name": "creator",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "759:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1483,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "759:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1486,
+                "name": "ref_Person",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "781:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1485,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "781:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1488,
+                "name": "PhotoEncoding",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "803:20:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1487,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "803:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1490,
+                "name": "PhotoBlob",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "856:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1489,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "856:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1492,
+                "name": "ownerValidate",
+                "nodeType": "VariableDeclaration",
+                "scope": 1493,
+                "src": "879:18:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1491,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "879:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Photo",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "684:226:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.Validation",
+            "id": 1504,
+            "members": [
+              {
+                "constant": false,
+                "id": 1495,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1331:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1494,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1331:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1497,
+                "name": "ref_Person",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1345:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1496,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1345:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1499,
+                "name": "ref_ValidationFlow",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1367:22:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_int256",
+                  "typeString": "int256"
+                },
+                "typeName": {
+                  "id": 1498,
+                  "name": "int",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1367:3:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1501,
+                "name": "CheckedBy",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1431:17:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1500,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1431:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1503,
+                "name": "ValDate",
+                "nodeType": "VariableDeclaration",
+                "scope": 1504,
+                "src": "1455:14:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1502,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1455:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Validation",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "1307:195:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.ValidationFlow",
+            "id": 1511,
+            "members": [
+              {
+                "constant": false,
+                "id": 1506,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1511,
+                "src": "1566:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1505,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1566:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1508,
+                "name": "CheckName",
+                "nodeType": "VariableDeclaration",
+                "scope": 1511,
+                "src": "1647:16:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1507,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1647:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1510,
+                "name": "CheckDescription",
+                "nodeType": "VariableDeclaration",
+                "scope": 1511,
+                "src": "1670:23:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1509,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1670:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "ValidationFlow",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "1508:193:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.ValidationFlowChecker",
+            "id": 1518,
+            "members": [
+              {
+                "constant": false,
+                "id": 1513,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1518,
+                "src": "1784:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1512,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1784:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1515,
+                "name": "ref_ValidationFlow",
+                "nodeType": "VariableDeclaration",
+                "scope": 1518,
+                "src": "1798:23:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1514,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1798:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1517,
+                "name": "Checker",
+                "nodeType": "VariableDeclaration",
+                "scope": 1518,
+                "src": "1830:15:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1516,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1830:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "ValidationFlowChecker",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "1707:144:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "Structures.SystemAutorization",
+            "id": 1525,
+            "members": [
+              {
+                "constant": false,
+                "id": 1520,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 1525,
+                "src": "2120:7:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1519,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2120:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1522,
+                "name": "ref_AutorizationType",
+                "nodeType": "VariableDeclaration",
+                "scope": 1525,
+                "src": "2183:25:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1521,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2183:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1524,
+                "name": "autorizedAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 1525,
+                "src": "2260:24:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1523,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2260:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "SystemAutorization",
+            "nodeType": "StructDefinition",
+            "scope": 1554,
+            "src": "2060:269:5",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 1529,
+            "name": "persons",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2811:32:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Person_$1480_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.Person)"
+            },
+            "typeName": {
+              "id": 1528,
+              "keyType": {
+                "id": 1526,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "2820:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "2811:24:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Person_$1480_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.Person)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1527,
+                "name": "Person",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1480,
+                "src": "2828:6:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Person_$1480_storage_ptr",
+                  "typeString": "struct Structures.Person"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1532,
+            "name": "PersonCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2848:22:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1530,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2848:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1531,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2869:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1536,
+            "name": "photos",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2877:30:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Photo_$1493_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.Photo)"
+            },
+            "typeName": {
+              "id": 1535,
+              "keyType": {
+                "id": 1533,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "2886:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "2877:23:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Photo_$1493_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.Photo)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1534,
+                "name": "Photo",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1493,
+                "src": "2894:5:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Photo_$1493_storage_ptr",
+                  "typeString": "struct Structures.Photo"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1539,
+            "name": "PhotoCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2912:21:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1537,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2912:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1538,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2932:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1543,
+            "name": "Sys_autorizations",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2940:54:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_SystemAutorization_$1525_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.SystemAutorization)"
+            },
+            "typeName": {
+              "id": 1542,
+              "keyType": {
+                "id": 1540,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "2949:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "2940:36:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_SystemAutorization_$1525_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.SystemAutorization)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1541,
+                "name": "SystemAutorization",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1525,
+                "src": "2957:18:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_SystemAutorization_$1525_storage_ptr",
+                  "typeString": "struct Structures.SystemAutorization"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1546,
+            "name": "SystemAutorizationCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "2999:34:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1544,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2999:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1545,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "3032:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1550,
+            "name": "validations",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "3040:40:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+              "typeString": "mapping(uint256 => struct Structures.Validation)"
+            },
+            "typeName": {
+              "id": 1549,
+              "keyType": {
+                "id": 1547,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "3049:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "3040:28:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Validation_$1504_storage_$",
+                "typeString": "mapping(uint256 => struct Structures.Validation)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1548,
+                "name": "Validation",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1504,
+                "src": "3057:10:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Validation_$1504_storage_ptr",
+                  "typeString": "struct Structures.Validation"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1553,
+            "name": "ValidationCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1554,
+            "src": "3085:26:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1551,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "3085:4:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1552,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "3110:1:5",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 1555,
+        "src": "32:3089:5"
+      }
+    ],
     "src": "0:3123:5"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "1.0.1",
-  "updatedAt": "2018-07-19T14:41:31.119Z"
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-07-19T16:02:53.547Z"
 }

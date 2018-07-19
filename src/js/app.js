@@ -1000,7 +1000,10 @@ App = {
     }
 
     App.contracts.PersonList.deployed().then(function(instance) {
-      return instance.addPhoto(_ref_person, _PhotoEncoding, _PhotoBlob);
+      return instance.addPhoto(_ref_person, _PhotoEncoding, _PhotoBlob, {
+      from: App.account,
+      gas: 50000000
+    });
 
     }).then(function(result) {
       App.loadingCycle=0;

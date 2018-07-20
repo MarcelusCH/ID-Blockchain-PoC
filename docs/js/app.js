@@ -809,7 +809,7 @@ App = {
 
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addPerson( _person_name, _person_givenName,
-        _person_gender, _person_birthdate);
+        _person_gender, _person_birthdate,{gasPrice: web3.toWei(10,'gwei')});
 
     }).then(function(result) {
       //alert('Item added!\n(automatique view update will hapen once block is mined.)');
@@ -839,7 +839,7 @@ App = {
 
     App.contracts.PersonList.deployed().then(function(instance){
       return instance.modifyPerson(_person_id, _person_name, _person_givenName,
-        _person_gender, _person_birthdate);
+        _person_gender, _person_birthdate,{gasPrice: web3.toWei(10,'gwei')});
     }).then(function(result) {
     //  alert('Item modified!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(error) {
@@ -857,7 +857,7 @@ App = {
     var ref = _ref_person.attr("data-id");
 
     App.contracts.PersonList.deployed().then(function(instance){
-      return instance.PuchPersonToValidation(ref,"");
+      return instance.PuchPersonToValidation(ref,"",{gasPrice: web3.toWei(10,'gwei')});
 
     }).then(function(result) {
       //alert('Item awaiting now validation!\n(automatique view update will hapen once block is mined.)');
@@ -876,7 +876,7 @@ App = {
     var ref = _ref_person.attr("data-id");
 
     App.contracts.PersonList.deployed().then(function(instance){
-      return instance.FinalPersonValidation(ref,"");
+      return instance.FinalPersonValidation(ref,"",{gasPrice: web3.toWei(10,'gwei')});
 
     }).then(function(result) {
       //alert('Item now validated!\n(automatique view update will hapen once block is mined.)');
@@ -907,7 +907,8 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addPhoto(_ref_person, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
-      gas: 7500000
+      gas: 7500000,
+      gasPrice: web3.toWei(10,'gwei')
     });
 
     }).then(function(result) {
@@ -939,7 +940,8 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.modifyPhoto(_ref_photo, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
-      gas: 7500000
+      gas: 7500000,
+      gasPrice: web3.toWei(10,'gwei')
     });
 
 
@@ -969,7 +971,8 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.ValidatePhoto(_ref_photo, {
       from: App.account,
-      gas: 7500000
+      gas: 7500000,
+      gasPrice: web3.toWei(10,'gwei')
     });
 
 
@@ -1097,9 +1100,10 @@ App = {
     }
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addAdministrator(_adminAddr, {
-        from: App.account,
-        gas: 500000
-      });
+      from: App.account,
+      gas: 7500000,
+      gasPrice: web3.toWei(10,'gwei')
+    });
 
     }).then(function(result) {
       //alert('Admin added!');
@@ -1113,7 +1117,11 @@ App = {
     var ref = _ref_admin.attr("data-id");
 
     App.contracts.PersonList.deployed().then(function(instance){
-      return instance.modifyAdministrator(ref);
+      return instance.modifyAdministrator(ref, {
+      from: App.account,
+      gas: 7500000,
+      gasPrice: web3.toWei(10,'gwei')
+    });
 
     }).then(function(result) {
       //alert('Admin removed!');

@@ -196,17 +196,34 @@
             <h2 class="pull-left">ID Blockchain Decentralized App </h2><p class="pull-left" style="font-size: smaller;"> v0.1</p>
             <p id="ConectedAsLabel" class="pull-right" >Not conected</p>
 
+
+
           </div>
 
+
         </div>
+
         <div class="row">
           <div class="col-lg-12">
-            <button type="button" class="btn btn-primary btn-sm pull-left"
-                  onclick="App.reloadPerson(); return false;">Reload Data</button>
+            <progress max="100" value="0" id="DataLoadingProgress"  class="pull-left" style="width: 440px;">25%</progress></br>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+
 
             <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#addPerson"
               onclick="OpenAddPerson(); return false;">Add new person</button>
             <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#ManageAutorization">Manage autorizations</button>
+
+
+            <button type="button" class="btn btn-primary btn-sm pull-right margin5L"
+                  onclick="App.ShowNextElem=(App.ShowNextElem+5);App.reloadPerson(); return false;"
+                  title="Reload with +5 items">+5</button>
+            <button type="button" class="btn btn-primary btn-sm pull-right"
+                  onclick="App.reloadPerson(); return false;" title="Reload content">Reload Data</button>
+
 
 
 
@@ -218,10 +235,10 @@
 
             <div id="tabsApp">
               <ul>
-                <li><a href="#tabs-1">All items (admin)</a></li>
-                <li><a href="#tabs-2">Items validation (admin)</a></li>
-                <li><a href="#tabs-3">Validated items (admin)</a></li>
                 <li><a href="#tabs-4">My items only</a></li>
+                <li class="adminTab" hidden><a href="#tabs-1">All items (admin)</a></li>
+                <li class="adminTab" hidden><a href="#tabs-2">Items validation (admin)</a></li>
+                <li class="adminTab" hidden><a href="#tabs-3">Validated items (admin)</a></li>
                 <li><a href="#tabs-0">Search</a></li>
                 <li><a href="#tabs-5">Functions</a></li>
               </ul>
@@ -367,8 +384,7 @@
                   <button class="btn btn-primary btn-lg pull-left margin15L" data-toggle="modal" data-target="#addPerson"
                     onclick="OpenAddPerson(); return false;">Add new person</button>
                   <button class="btn btn-primary btn-lg pull-left margin15L" data-toggle="modal" data-target="#ManageAutorization">Manage autorizations</button>
-                  <button class="btn btn-primary btn-lg pull-left margin15L" data-toggle="modal" data-target="#UpdateInfoBox"
-                      onclick="setTimeout(function(){ $('#UpdateInfoBox').modal('hide'); return false; }, 1500);" >test</button>
+            
 
 
                 </div>

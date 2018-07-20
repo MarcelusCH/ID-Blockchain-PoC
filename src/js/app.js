@@ -9,7 +9,7 @@ App = {
   globalIsAdmin: false,
   globalIsOwner: false,
 
-  ShowNextElem: 25,
+  ShowNextElem: 4,
   PersonModifID: -1,
   TimeShowInfo: 3500,
 
@@ -121,6 +121,7 @@ App = {
                 App.globalIsAdmin=true;
                 $('#ConectedAsLabel').text("Connected as Admin");
                 $('#ConectedAsLabel').css('color', 'red');
+                $('.adminTab').show();
               } else {
                 App.globalIsAdmin=false;
                 $('#ConectedAsLabel').text("Connected as User");
@@ -133,6 +134,7 @@ App = {
               if(App.globalIsOwner){
                 $('#ConectedAsLabel').text("Connected as Owner");
                 $('#ConectedAsLabel').css('color', 'red');
+                $('.adminTab').show();
               }
 
             });
@@ -153,18 +155,12 @@ App = {
   //----------------------------------------------------------------------------
   reloadPerson: function() {
 
-    // avoid reentry
-    //App.loadingCycle +=1;
-    //  if(App.loadingCycle >= 2) {
-    //  App.loadingCycle=0;
-    //  return;
-    //}
-    //if(App.loading) {return;}
-    //App.loading = true;
+    $('#DataLoadingProgress').val(0);
+
 
 
     App.displayAccountInfo();
-
+    $('#DataLoadingProgress').val(2);
 
 
 
@@ -174,12 +170,13 @@ App = {
       $('#personsRow').empty();
       $('#personsRowToValidate').empty();
       $('#ValidatedpersonsRow').empty();
+      $('#DataLoadingProgress').val(5);
 
 
       // My items only
       await chainListInstance.getMyPersonIds().then(async function(personIds) {
 
-
+        var incToProgress = (22/personIds.length);
         var IncStop = personIds.length-1-App.ShowNextElem;
         if(IncStop<0) {IncStop=0;}
         for(var IncInv = personIds.length-1; IncInv >= IncStop; IncInv--) {
@@ -187,12 +184,17 @@ App = {
             MyPersonData=data;
             App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
                               MyPersonData[4],MyPersonData[5],1,MyPersonData[6],true);
+
+
           });
+
+          $('#DataLoadingProgress').val($('#DataLoadingProgress').val()+incToProgress);
         } // End for
 
         return personIds;
       }).then(async function(personIds) {
 
+        var incToProgress = (22/personIds.length);
         var IncStop = personIds.length-1-App.ShowNextElem;
         if(IncStop<0) {IncStop=0;}
         for(var IncInv = personIds.length-1; IncInv >= IncStop; IncInv--) {
@@ -215,7 +217,7 @@ App = {
           }
 
           App.displayPhotoAttribute(personIds[IncInv],photoString,photoStatus,MyPersonData[6],photoID)
-
+          $('#DataLoadingProgress').val($('#DataLoadingProgress').val()+incToProgress);
         } // End for
 
 
@@ -228,8 +230,10 @@ App = {
 
 
       // All items loop (admin)
+      $('#DataLoadingProgress').val(50);
       await chainListInstance.getPersonIds().then(async function(personIds) {
 
+        var incToProgress = (22/personIds.length);
         var IncStop = personIds.length-1-App.ShowNextElem;
         if(IncStop<0) {IncStop=0;}
         for(var IncInv = personIds.length-1; IncInv >= IncStop; IncInv--) {
@@ -238,11 +242,14 @@ App = {
             App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
                               MyPersonData[4],MyPersonData[5],0,MyPersonData[6],true);
           });
+
+          $('#DataLoadingProgress').val($('#DataLoadingProgress').val()+incToProgress);
         } // End for
 
         return personIds;
       }).then(async function(personIds) {
 
+        var incToProgress = (22/personIds.length);
         var IncStop = personIds.length-1-App.ShowNextElem;
         if(IncStop<0) {IncStop=0;}
         for(var IncInv = personIds.length-1; IncInv >= IncStop; IncInv--) {
@@ -265,7 +272,7 @@ App = {
           }
 
           App.displayPhotoAttribute(personIds[IncInv],photoString,photoStatus,MyPersonData[6],photoID)
-
+          $('#DataLoadingProgress').val($('#DataLoadingProgress').val()+incToProgress);
         } // End for
 
 
@@ -286,6 +293,7 @@ App = {
 
 
       //App.loading = false;
+      $('#DataLoadingProgress').val(100);
       return ;
     }).catch(function(err) {
       console.error(err.message);

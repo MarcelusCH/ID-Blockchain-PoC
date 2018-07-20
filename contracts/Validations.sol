@@ -12,11 +12,6 @@ contract Validations is Ownable, Structures  {
 
 
 
-
-
-
-
-
   // Check the actual Validation phase -----------------------------------------
   function getValidation(uint _ref_Person) public view returns (int){
 

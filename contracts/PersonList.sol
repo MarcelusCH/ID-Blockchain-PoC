@@ -17,6 +17,7 @@ pragma solidity ^0.4.24;
 // -----------------------------------------------------------------------------
 
 
+
 // Import of other needed contracts
 import "./Ownable.sol";
 import "./Structures.sol";

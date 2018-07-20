@@ -2,7 +2,6 @@ pragma solidity ^0.4.24;
 
 contract Events {
 
-
   // events
   event LogAddPerson(uint indexed _ref_Person);
   event LogAddInformation(uint indexed _ref_Person);

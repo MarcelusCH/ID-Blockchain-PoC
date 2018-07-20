@@ -17,8 +17,4 @@ contract Ownable {
 
 
 
-
-
-
-
 }

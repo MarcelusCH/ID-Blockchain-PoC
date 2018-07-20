@@ -915,7 +915,7 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addPhoto(_ref_person, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
-      gas: 7500000,
+      gas: 7000000,
       gasPrice: web3.toWei(10,'gwei')
     });
 
@@ -948,7 +948,7 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.modifyPhoto(_ref_photo, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
-      gas: 7500000,
+      gas: 7000000,
       gasPrice: web3.toWei(10,'gwei')
     });
 
@@ -979,7 +979,7 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.ValidatePhoto(_ref_photo, {
       from: App.account,
-      gas: 7500000,
+      gas: 7000000,
       gasPrice: web3.toWei(10,'gwei')
     });
 

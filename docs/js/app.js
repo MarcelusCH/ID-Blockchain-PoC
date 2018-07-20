@@ -577,6 +577,7 @@ App = {
     } else if (App.globalIsAdmin){
       if (_status==-1){
         personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
+        if (_creator==App.account){personTemplate.find(".btn-push-validation").attr('style','visibility: visible;');}
       } else if (_status==0){
         personTemplate.find(".btn-push-finalValidation").attr('style','visibility: visible;');
         personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');

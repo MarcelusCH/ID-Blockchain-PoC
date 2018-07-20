@@ -4,14 +4,14 @@ App = {
   web3Provider: null,
   contracts: {},
   account: 0x0,
-  loading: false,
+  //loading: false,
 
   globalIsAdmin: false,
   globalIsOwner: false,
 
-  ShowNextElem: 20,
-  PersonModifID:-1,
-  TimeShowInfo: 2500,
+  ShowNextElem: 25,
+  PersonModifID: -1,
+  TimeShowInfo: 3500,
 
   init: function() {
     return App.initWeb3();
@@ -81,13 +81,13 @@ App = {
 
       chainListInstance.IsOwner().then(function(IsOwner) {
         if(IsOwner){
-          globalIsOwner=true;
+          App.globalIsOwner=true;
           $('.btn-add-admin').attr('style','visibility: visible;');
           $('.btn-admin-remove').attr('style','visibility: visible;');
           $('#adminToAdd').attr('style','visibility: visible;');
 
         } else {
-          globalIsOwner=false;
+          App.globalIsOwner=false;
           $('.btn-add-admin').attr('style','visibility: hidden;');
           $('#adminToAdd').attr('style','visibility: hidden;');
           $('.btn-admin-remove').attr('style','visibility: hidden;');
@@ -118,11 +118,11 @@ App = {
               return chainListInstance.IsAdmin();
             }).then(function(IsAdmin) {
               if(IsAdmin){
-                globalIsAdmin=true;
+                App.globalIsAdmin=true;
                 $('#ConectedAsLabel').text("Connected as Admin");
                 $('#ConectedAsLabel').css('color', 'red');
               } else {
-                globalIsAdmin=false;
+                App.globalIsAdmin=false;
                 $('#ConectedAsLabel').text("Connected as User");
                 $('#ConectedAsLabel').css('color', 'blue');
               }
@@ -130,6 +130,10 @@ App = {
               return chainListInstance.GetContractOwner();
             }).then(function(addr) {
               $('#ContractOwnerAddress').text(addr);
+              if(App.globalIsOwner){
+                $('#ConectedAsLabel').text("Connected as Owner");
+                $('#ConectedAsLabel').css('color', 'red');
+              }
 
             });
 
@@ -147,7 +151,7 @@ App = {
   //----------------------------------------------------------------------------
   // ------------------------- reload person ------------------------------
   //----------------------------------------------------------------------------
-  reloadPerson: async function() {
+  reloadPerson: function() {
 
     // avoid reentry
     //App.loadingCycle +=1;
@@ -155,8 +159,8 @@ App = {
     //  App.loadingCycle=0;
     //  return;
     //}
-    if(App.loading) {return;}
-    App.loading = true;
+    //if(App.loading) {return;}
+    //App.loading = true;
 
 
     App.displayAccountInfo();
@@ -164,21 +168,25 @@ App = {
 
 
 
+    App.contracts.PersonList.deployed().then(async function(chainListInstance) {
 
-    App.contracts.PersonList.deployed().then(function(chainListInstance) {
+      $('#MyPersonsRow').empty();
+      $('#personsRow').empty();
+      $('#personsRowToValidate').empty();
+      $('#ValidatedpersonsRow').empty();
 
 
       // My items only
-      chainListInstance.getMyPersonIds().then(function(personIds) {
+      await chainListInstance.getMyPersonIds().then(async function(personIds) {
 
-        $('#MyPersonsRow').empty();
+
         var IncStop = personIds.length-1-App.ShowNextElem;
         if(IncStop<0) {IncStop=0;}
         for(var IncInv = personIds.length-1; IncInv >= IncStop; IncInv--) {
-          chainListInstance.GetPerson(personIds[IncInv].toNumber()).then(function(data) {
+          await chainListInstance.GetPerson(personIds[IncInv].toNumber()).then(function(data) {
             MyPersonData=data;
             App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
-                              MyPersonData[4],MyPersonData[5],1,MyPersonData[6],"",0, 0);
+                              MyPersonData[4],MyPersonData[5],1,MyPersonData[6],true);
           });
         } // End for
 
@@ -220,18 +228,15 @@ App = {
 
 
       // All items loop (admin)
-      chainListInstance.getPersonIds().then(function(personIds) {
+      await chainListInstance.getPersonIds().then(async function(personIds) {
 
-        $('#personsRow').empty();
-        $('#personsRowToValidate').empty();
-        $('#ValidatedpersonsRow').empty();
         var IncStop = personIds.length-1-App.ShowNextElem;
         if(IncStop<0) {IncStop=0;}
         for(var IncInv = personIds.length-1; IncInv >= IncStop; IncInv--) {
-          chainListInstance.GetPerson(personIds[IncInv].toNumber()).then(function(data) {
+          await chainListInstance.GetPerson(personIds[IncInv].toNumber()).then(function(data) {
             MyPersonData=data;
             App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
-                              MyPersonData[4],MyPersonData[5],0,MyPersonData[6],"",0, 0);
+                              MyPersonData[4],MyPersonData[5],0,MyPersonData[6],true);
           });
         } // End for
 
@@ -280,15 +285,15 @@ App = {
 
 
 
-      App.loading = false;
+      //App.loading = false;
       return ;
     }).catch(function(err) {
       console.error(err.message);
-      App.loading = false;
+      //App.loading = false;
     });
 
   }, // ------------------------------------------------------------------------
-  reloadOnePerson: async function() {
+  reloadOnePerson: function() {
 
     //  alert(App.PersonModifID);
 
@@ -300,23 +305,12 @@ App = {
 
 
 
+      await chainListInstance.GetPerson(App.PersonModifID).then(async function(MyPersonData) {
 
 
 
-
-      chainListInstance.GetPerson(App.PersonModifID).then(function(MyPersonData) {
-
-
-        App.UpdateDisplayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
-                          MyPersonData[4],MyPersonData[5],0,MyPersonData[6]);
-
-
-
-        return MyPersonData;
-      }).then(function(MyPersonData) {
-
-        App.UpdateDisplayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
-                          MyPersonData[4],MyPersonData[5],1,MyPersonData[6]);
+        await App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
+                          MyPersonData[4],MyPersonData[5],1,MyPersonData[6],false);
 
 
         return MyPersonData;
@@ -355,6 +349,58 @@ App = {
 
 
 
+
+
+
+
+
+
+      await chainListInstance.GetPerson(App.PersonModifID).then(async function(MyPersonData) {
+
+
+
+          await App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
+                            MyPersonData[4],MyPersonData[5],0,MyPersonData[6],false);
+
+
+
+        return MyPersonData;
+      }).then(async function(MyPersonData) {
+
+
+        var photoString="";
+        var photoStatus=0;
+        var photoID=0;
+
+        var MyPhotoData = await chainListInstance.GetPhotoByPerson(MyPersonData[0]);
+
+        if(MyPhotoData[2].toNumber()==MyPersonData[0].toNumber()){
+
+          photoString=MyPhotoData[4];
+          photoID=MyPhotoData[0];
+          if(MyPhotoData[5]){
+            photoStatus=2;
+          } else {
+            photoStatus=1;
+          }
+        }
+
+        App.displayPhotoAttribute(MyPersonData[0],photoString,photoStatus,MyPersonData[6],photoID);
+
+
+      }).catch(function(err) {
+        console.error(err.message);
+        App.loading = false;
+      });
+
+
+
+
+
+
+
+
+
     }).catch(function(err) {
       console.error(err.message);
       App.PersonModifID=-1;
@@ -369,7 +415,7 @@ App = {
   }, // ------------------------------------------------------------------------
   searchPersonByName: async function() {
 
-
+    App.displayAccountInfo();
 
     var _name = $('#SearchPersonName').val();
 
@@ -388,7 +434,7 @@ App = {
           chainListInstance.GetPerson(personIds[IncInv].toNumber()).then(function(data) {
             MyPersonData=data;
             App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
-                              MyPersonData[4],MyPersonData[5],2,MyPersonData[6],"",0, 0);
+                              MyPersonData[4],MyPersonData[5],2,MyPersonData[6]);
           });
         } // End for
 
@@ -449,111 +495,118 @@ App = {
   //----------------------------------------------------------------------------
   // ------------------------- Display the person ------------------------------
   //----------------------------------------------------------------------------
-  displayPerson: function(_id, _creator, _name ,
-     _givenName, _gender, _birthDate, isMyOnly, _status, _photo, _photoStatus, _photoID) {
+  displayPerson: function(_id, _creator, _name , _givenName, _gender, _birthDate, isMyOnly, _status, appendItem) {
 
-       //$(".panel-personID_"+_id).find('.panel-title').html("TEST")
-
-       //if ($(".panel-personID_"+_id)[0]){
-      //   personTemplate = $(".panel-personID_"+_id);
-      //}
-       // isMyOnly 0=all
-       //          1=isMyOnly
-       //          2=Search
-
-     var personTemplate = $("#personTemplate");
-
-     // Set Text
-     personTemplate.find('.panel-title').html("ID: " + _id + " | <strong>" + _name.toUpperCase() + "</strong> " + _givenName);
-     personTemplate.find('.person-gender').text(_gender);
-     personTemplate.find('.person-birthdate').text(_birthDate);
-     personTemplate.find('.person-name').text(_name);
-     personTemplate.find('.person-givenName').text(_givenName);
+    // isMyOnly 0=all, 1=isMyOnly, 2=Search
 
 
-     // Check the button status & attribut
-     function SetBTNattr(sBTNclass) {
-         personTemplate.find(sBTNclass).attr('data-id', _id);
-         personTemplate.find(sBTNclass).attr('data-name', _name);
-         personTemplate.find(sBTNclass).attr('data-givenName', _givenName);
-         personTemplate.find(sBTNclass).attr('data-gender', _gender);
-         personTemplate.find(sBTNclass).attr('data-birthDate', _birthDate);
-         personTemplate.find(sBTNclass).attr('style','visibility: hidden;')
-     };
+    if((App.globalIsAdmin==false && App.globalIsOwner==false) && isMyOnly == 0){
+      return;
+    }
 
-    // change button attributes
+    // Check if add or update existing
+    var personTemplate = $("#personTemplate");
+    var AddPersonAction = true;
+    if(isMyOnly==1){
+      if ($(".panel-personID_"+_id).length>0){
+       personTemplate = $(".panel-personID_"+_id);
+       AddPersonAction = false;
+      }
+    }
+    if(isMyOnly==0){
+      if ($(".panel-personID_"+_id).length>1){
+       personTemplate = $(".panel-personID_"+_id);
+       AddPersonAction = false;
+      }
+    }
+    //alert(AddPersonAction+ " " + isMyOnly + " " + _id);
+
+    // Set Text
+    personTemplate.find('.panel-title').html("ID: " + _id + " | <strong>" + _name.toUpperCase() + "</strong> " + _givenName);
+    personTemplate.find('.person-gender').text(_gender);
+    personTemplate.find('.person-birthdate').text(_birthDate);
+    personTemplate.find('.person-name').text(_name);
+    personTemplate.find('.person-givenName').text(_givenName);
+
+
+    // change button attributes and hidde all
+    function SetBTNattr(sBTNclass) {
+       personTemplate.find(sBTNclass).attr('data-id', _id);
+       personTemplate.find(sBTNclass).attr('data-name', _name);
+       personTemplate.find(sBTNclass).attr('data-givenName', _givenName);
+       personTemplate.find(sBTNclass).attr('data-gender', _gender);
+       personTemplate.find(sBTNclass).attr('data-birthDate', _birthDate);
+       personTemplate.find(sBTNclass).attr('style','visibility: hidden;')
+    };
     SetBTNattr(".btn-modify-Person");
     SetBTNattr(".btn-add-photo");
     SetBTNattr(".btn-push-validation");
     SetBTNattr(".btn-push-finalValidation");
-    SetBTNattr(".btn-add-minutia");
     SetBTNattr(".btn-modify-photo");
     SetBTNattr(".btn-validate-photo");
 
-
-
-
+    // Set default image and pannel call attr.
+    personTemplate.find('.person-photo-validate').html("Loading...");
     personTemplate.find('.person-photo').attr('src', "img/empty-profile-pic.png");
     personTemplate.find('.panel-person').attr('class', "panel panel-default panel-person"+" panel-personID_"+_id);
 
+
     // Check if address owner of _creator
-    if (_creator == App.account) {
-      personTemplate.find('.person-creator').text("You");
+    if (_creator == App.account) {personTemplate.find('.person-creator').text("You");}
+    else {                        personTemplate.find('.person-creator').text(_creator);};
+
+    // Check person status label
+    if (_status==-1){     personTemplate.find('.person-Status').text("New entry");}
+    else if (_status==0){ personTemplate.find('.person-Status').text("Awaiting validation");}
+    else if (_status==1){ personTemplate.find('.person-Status').text("Validated");}
+
+
+
+
+    // Check user right for modif & validation btn
+    if (App.globalIsOwner){
+      if (_status==-1){
+        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
+        personTemplate.find(".btn-push-validation").attr('style','visibility: visible;');
+      } else if (_status==0){
+        personTemplate.find(".btn-push-finalValidation").attr('style','visibility: visible;');
+        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
+      } else if (_status==1){
+        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
+      };
+    } else if (App.globalIsAdmin){
+      if (_status==-1){
+        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
+      } else if (_status==0){
+        personTemplate.find(".btn-push-finalValidation").attr('style','visibility: visible;');
+        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
+      };
+    } else {
       if (_status==-1){
         personTemplate.find(".btn-push-validation").attr('style','visibility: visible;');
         personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
       };
-    } else {
-      personTemplate.find('.person-creator').text(_creator);
     };
 
 
-    if (_status==-1){
-      personTemplate.find('.person-Status').text("New entry");
-    }
-    if (_status==0){
-      personTemplate.find('.person-Status').text("Awaiting validation");
-      if(globalIsAdmin){
-        personTemplate.find(".btn-push-finalValidation").attr('style','visibility: visible;');
-        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
-      }
-    }
-    if (_status==1){
-      personTemplate.find('.person-Status').text("Validated");
-    }
 
 
-    if (globalIsOwner){
-      personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
-    }
-
-
-
-
-
-
-
-    // add this new article
-    personsRow = $('#personsRow');
-    personTemplate.find('.person-photo').attr('id', 'PhotoPersonID_' + _id);
-    personTemplate.find('.person-photo-validate').attr('id', 'PhotoPersonValidate_' + _id);
-    personTemplate.find('.btn-add-photo').attr('id', 'btn-add-photo_PersonID_' + _id);
-    personTemplate.find('.btn-modify-photo').attr('id', 'btn-modify-photo_PersonID_' + _id);
-    personTemplate.find('.btn-validate-photo').attr('id', 'btn-validate-photo_PersonID_' + _id);
-
-
-
-    if(isMyOnly==1){
+    // set id attributs
+    if(isMyOnly==0){ // All
+      personsRow = $('#personsRow');
+      personTemplate.find('.person-photo').attr('id', 'PhotoPersonID_' + _id);
+      personTemplate.find('.person-photo-validate').attr('id', 'PhotoPersonValidate_' + _id);
+      personTemplate.find('.btn-add-photo').attr('id', 'btn-add-photo_PersonID_' + _id);
+      personTemplate.find('.btn-modify-photo').attr('id', 'btn-modify-photo_PersonID_' + _id);
+      personTemplate.find('.btn-validate-photo').attr('id', 'btn-validate-photo_PersonID_' + _id);
+    } else if(isMyOnly==1){
       personsRow = $('#MyPersonsRow');
       personTemplate.find('.person-photo').attr('id', 'isMyOnly_PhotoPersonID_' + _id);
       personTemplate.find('.person-photo-validate').attr('id', 'isMyOnly_PhotoPersonValidate_' + _id);
       personTemplate.find('.btn-add-photo').attr('id', 'isMyOnly_btn-add-photo_PersonID_' + _id);
       personTemplate.find('.btn-modify-photo').attr('id', 'isMyOnly_btn-modify-photo_PersonID_' + _id);
       personTemplate.find('.btn-validate-photo').attr('id', 'isMyOnly_btn-validate-photo_PersonID_' + _id);
-    }
-
-
-    if(isMyOnly==2){
+    } else if(isMyOnly==2){ // Search
       personsRow = $('#SearchPersonsRow');
       personTemplate.find('.person-photo').attr('id', 'search_PhotoPersonID_' + _id);
       personTemplate.find('.person-photo-validate').attr('id', 'search_PhotoPersonValidate_' + _id);
@@ -562,173 +615,20 @@ App = {
       personTemplate.find('.btn-validate-photo').attr('id', 'search_btn-validate-photo_PersonID_' + _id);
 
       personsRow.append(personTemplate.html());
+      personTemplate.find('.panel-person').attr('class', "panel panel-default panel-person");
       return;
     }
 
-    personsRow.append(personTemplate.html());
 
-
-
-
-
-
-
-    // add it to admin filters...
-    if(globalIsAdmin && isMyOnly == false){
-
-        if(_status==0){
-          personTemplate.find('.person-photo').attr('id', 'toValidate_PhotoPersonID_' + _id);
-          personTemplate.find('.person-photo-validate').attr('id', 'toValidate_PhotoPersonValidate_' + _id);
-          personTemplate.find('.btn-add-photo').attr('id', 'toValidate_btn-add-photo_PersonID_' + _id);
-          personTemplate.find('.btn-modify-photo').attr('id', 'toValidate_btn-modify-photo_PersonID_' + _id);
-          personTemplate.find('.btn-validate-photo').attr('id', 'toValidate_btn-validate-photo_PersonID_' + _id);
-
-          personsRowToValidate = $('#personsRowToValidate');
-          personsRowToValidate.append(personTemplate.html());
-        }
-
-        if(_status==1){
-          personTemplate.find('.person-photo').attr('id', 'validated_PhotoPersonID_' + _id);
-          personTemplate.find('.person-photo-validate').attr('id', 'validated_PhotoPersonValidate_' + _id);
-          personTemplate.find('.btn-add-photo').attr('id', 'validated_btn-add-photo_PersonID_' + _id);
-          personTemplate.find('.btn-modify-photo').attr('id', 'validated_btn-modify-photo_PersonID_' + _id);
-          personTemplate.find('.btn-validate-photo').attr('id', 'validated_btn-validate-photo_PersonID_' + _id);
-
-          ValidatedpersonsRow = $('#ValidatedpersonsRow');
-          ValidatedpersonsRow.append(personTemplate.html());
-        }
-
-    }
-
-
-
-  },// ------------------------------------------------------------------------
-  UpdateDisplayPerson: function(_id, _creator, _name , _givenName, _gender, _birthDate, isMyOnly, _status) {
-
-
-
-
-
-       //$(".panel-personID_"+_id).find('.panel-title').html("TEST")
-       var personTemplate = $("#personTemplate");
-       var AddPersonAction = true;
-       if(isMyOnly==0){
-         if ($(".panel-personID_"+_id).length>0){
-           personTemplate = $(".panel-personID_"+_id);
-           AddPersonAction = false;
-         }
-       } else if(isMyOnly==1){
-         if ($(".panel-personID_"+_id).length>1){
-           personTemplate = $(".panel-personID_"+_id);
-           AddPersonAction = false;
-         }
-       }
-       // isMyOnly 0=all
-       //          1=isMyOnly
-       //          2=Search
-
-
-
-     // Set Text
-     personTemplate.find('.panel-title').html("ID: " + _id + " | <strong>" + _name.toUpperCase() + "</strong> " + _givenName);
-     personTemplate.find('.person-gender').text(_gender);
-     personTemplate.find('.person-birthdate').text(_birthDate);
-     personTemplate.find('.person-name').text(_name);
-     personTemplate.find('.person-givenName').text(_givenName);
-
-
-     // Check the button status & attribut
-     function SetBTNattr(sBTNclass) {
-         personTemplate.find(sBTNclass).attr('data-id', _id);
-         personTemplate.find(sBTNclass).attr('data-name', _name);
-         personTemplate.find(sBTNclass).attr('data-givenName', _givenName);
-         personTemplate.find(sBTNclass).attr('data-gender', _gender);
-         personTemplate.find(sBTNclass).attr('data-birthDate', _birthDate);
-         personTemplate.find(sBTNclass).attr('style','visibility: hidden;')
-     };
-
-    // change button attributes
-    SetBTNattr(".btn-modify-Person");
-    SetBTNattr(".btn-add-photo");
-    SetBTNattr(".btn-push-validation");
-    SetBTNattr(".btn-push-finalValidation");
-    SetBTNattr(".btn-add-minutia");
-    SetBTNattr(".btn-modify-photo");
-    SetBTNattr(".btn-validate-photo");
-
-
-
-
-    personTemplate.find('.person-photo').attr('src', "img/empty-profile-pic.png");
-    personTemplate.find('.panel-person').attr('class', "panel panel-default panel-person"+" panel-personID_"+_id);
-
-    // Check if address owner of _creator
-    if (_creator == App.account) {
-      personTemplate.find('.person-creator').text("You");
-      if (_status==-1){
-        personTemplate.find(".btn-push-validation").attr('style','visibility: visible;');
-        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
-      };
-    } else {
-      personTemplate.find('.person-creator').text(_creator);
+    if (AddPersonAction){
+      if(appendItem){personsRow.append(personTemplate.html())}
+      else {personsRow.prepend(personTemplate.html())}
     };
 
 
-    if (_status==-1){
-      personTemplate.find('.person-Status').text("New entry");
-    }
-    if (_status==0){
-      personTemplate.find('.person-Status').text("Awaiting validation");
-      if(globalIsAdmin){
-        personTemplate.find(".btn-push-finalValidation").attr('style','visibility: visible;');
-        personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
-      }
-    }
-    if (_status==1){
-      personTemplate.find('.person-Status').text("Validated");
-    }
-
-
-    if (globalIsOwner){
-      personTemplate.find(".btn-modify-Person").attr('style','visibility: visible;');
-    }
-
-
-
-
-
-
-
-    // add this new article
-    personsRow = $('#personsRow');
-    personTemplate.find('.person-photo').attr('id', 'PhotoPersonID_' + _id);
-    personTemplate.find('.person-photo-validate').attr('id', 'PhotoPersonValidate_' + _id);
-    personTemplate.find('.btn-add-photo').attr('id', 'btn-add-photo_PersonID_' + _id);
-    personTemplate.find('.btn-modify-photo').attr('id', 'btn-modify-photo_PersonID_' + _id);
-    personTemplate.find('.btn-validate-photo').attr('id', 'btn-validate-photo_PersonID_' + _id);
-
-
-
-    if(isMyOnly==1){
-      personsRow = $('#MyPersonsRow');
-      personTemplate.find('.person-photo').attr('id', 'isMyOnly_PhotoPersonID_' + _id);
-      personTemplate.find('.person-photo-validate').attr('id', 'isMyOnly_PhotoPersonValidate_' + _id);
-      personTemplate.find('.btn-add-photo').attr('id', 'isMyOnly_btn-add-photo_PersonID_' + _id);
-      personTemplate.find('.btn-modify-photo').attr('id', 'isMyOnly_btn-modify-photo_PersonID_' + _id);
-      personTemplate.find('.btn-validate-photo').attr('id', 'isMyOnly_btn-validate-photo_PersonID_' + _id);
-    }
-
-
-    if (AddPersonAction){personsRow.prepend(personTemplate.html())};
-
-
-
-
-
-
 
     // add it to admin filters...
-    if(globalIsAdmin && isMyOnly == false){
+    if((App.globalIsAdmin || App.globalIsOwner) && isMyOnly == 0){
 
         if(_status==0){
           personTemplate.find('.person-photo').attr('id', 'toValidate_PhotoPersonID_' + _id);
@@ -737,8 +637,11 @@ App = {
           personTemplate.find('.btn-modify-photo').attr('id', 'toValidate_btn-modify-photo_PersonID_' + _id);
           personTemplate.find('.btn-validate-photo').attr('id', 'toValidate_btn-validate-photo_PersonID_' + _id);
 
-          personsRowToValidate = $('#personsRowToValidate');
-          if (AddPersonAction){personsRow.prepend(personTemplate.html())};
+          personsRow = $('#personsRowToValidate');
+          if (AddPersonAction){
+            if(appendItem){personsRow.append(personTemplate.html())}
+            else {personsRow.prepend(personTemplate.html())}
+          };
         }
 
         if(_status==1){
@@ -748,8 +651,11 @@ App = {
           personTemplate.find('.btn-modify-photo').attr('id', 'validated_btn-modify-photo_PersonID_' + _id);
           personTemplate.find('.btn-validate-photo').attr('id', 'validated_btn-validate-photo_PersonID_' + _id);
 
-          ValidatedpersonsRow = $('#ValidatedpersonsRow');
-          if (AddPersonAction){personsRow.prepend(personTemplate.html())};
+          personsRow = $('#ValidatedpersonsRow');
+          if (AddPersonAction){
+            if(appendItem){personsRow.append(personTemplate.html())}
+            else {personsRow.prepend(personTemplate.html())}
+          };
         }
 
     }
@@ -805,7 +711,7 @@ App = {
         $("#toValidate_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#validated_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#search_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
-      }else {
+      } else if (photoStatus==1){
         $("#btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#btn-modify-photo_PersonID_"+ref_person).attr('data-photo-id',photoID);
         $("#isMyOnly_btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
@@ -820,14 +726,14 @@ App = {
     }
 
     // Set Photo Add or modify BTN for admin in first validation phase
-    if(globalIsAdmin){
-      if (photoStatus==0){
+    if(App.globalIsAdmin){
+      if (photoStatus==0 && personStatus==0){
         $("#btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#isMyOnly_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#toValidate_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#validated_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#search_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
-      }else {
+      }else if (photoStatus==1 && personStatus==0){
         $("#btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#btn-modify-photo_PersonID_"+ref_person).attr('data-photo-id',photoID);
         $("#isMyOnly_btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
@@ -844,14 +750,14 @@ App = {
 
 
     // Set Photo Add or modify BTN for owner
-    if(globalIsOwner){
+    if(App.globalIsOwner){
       if (photoStatus==0){
         $("#btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#isMyOnly_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#toValidate_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#validated_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#search_btn-add-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
-      } else if (photoStatus==1) {
+      } else if (photoStatus==1 || photoStatus==2) {
         $("#btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#btn-modify-photo_PersonID_"+ref_person).attr('data-photo-id',photoID);
         $("#isMyOnly_btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
@@ -862,7 +768,8 @@ App = {
         $("#validated_btn-modify-photo_PersonID_"+ref_person).attr('data-photo-id',photoID);
         $("#search_btn-modify-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#search_btn-modify-photo_PersonID_"+ref_person).attr('data-photo-id',photoID);
-
+      }
+      if (photoStatus==1) {
         $("#btn-validate-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
         $("#btn-validate-photo_PersonID_"+ref_person).attr('data-photo-id',photoID);
         $("#isMyOnly_btn-validate-photo_PersonID_"+ref_person).attr('style','visibility: visible;');
@@ -904,7 +811,7 @@ App = {
         _person_gender, _person_birthdate);
 
     }).then(function(result) {
-      alert('Item added!\n(automatique view update will hapen once block is mined.)');
+      //alert('Item added!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(err) {
       console.error(err);
     });
@@ -933,8 +840,7 @@ App = {
       return instance.modifyPerson(_person_id, _person_name, _person_givenName,
         _person_gender, _person_birthdate);
     }).then(function(result) {
-      App.loadingCycle=0;
-      alert('Item modified!\n(automatique view update will hapen once block is mined.)');
+    //  alert('Item modified!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(error) {
       console.error(error);
     });
@@ -953,8 +859,7 @@ App = {
       return instance.PuchPersonToValidation(ref,"");
 
     }).then(function(result) {
-      App.loadingCycle=0;
-      alert('Item awaiting now validation!\n(automatique view update will hapen once block is mined.)');
+      //alert('Item awaiting now validation!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(error) {
       console.error(error);
     });
@@ -973,8 +878,7 @@ App = {
       return instance.FinalPersonValidation(ref,"");
 
     }).then(function(result) {
-      App.loadingCycle=0;
-      alert('Item now validated!\n(automatique view update will hapen once block is mined.)');
+      //alert('Item now validated!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(error) {
       console.error(error);
     });
@@ -1002,12 +906,11 @@ App = {
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addPhoto(_ref_person, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
-      gas: 50000000
+      gas: 7500000
     });
 
     }).then(function(result) {
-      App.loadingCycle=0;
-      alert('Item added!\n(automatique view update will hapen once block is mined.)');
+      //alert('Item added!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(err) {
       console.error(err);
     });
@@ -1033,7 +936,10 @@ App = {
     }
 
     App.contracts.PersonList.deployed().then(function(instance) {
-      return instance.modifyPhoto(_ref_photo, _PhotoEncoding, _PhotoBlob);
+      return instance.modifyPhoto(_ref_photo, _PhotoEncoding, _PhotoBlob, {
+      from: App.account,
+      gas: 7500000
+    });
 
 
 
@@ -1041,8 +947,7 @@ App = {
 
 
     }).then(function(result) {
-      App.loadingCycle=0;
-      alert('Item modified!\n(automatique view update will hapen once block is mined.)');
+      //alert('Item modified!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(err) {
       console.error(err);
     });
@@ -1061,7 +966,10 @@ App = {
     //alert(_ref_photo);
 
     App.contracts.PersonList.deployed().then(function(instance) {
-      return instance.ValidatePhoto(_ref_photo);
+      return instance.ValidatePhoto(_ref_photo, {
+      from: App.account,
+      gas: 7500000
+    });
 
 
 
@@ -1069,8 +977,7 @@ App = {
 
 
     }).then(function(result) {
-      App.loadingCycle=0;
-      alert('Photo is now Validate!\n(automatique view update will hapen once block is mined.)');
+      //alert('Photo is now Validate!\n(automatique view update will hapen once block is mined.)');
     }).catch(function(err) {
       console.error(err);
     });
@@ -1194,7 +1101,7 @@ App = {
       });
 
     }).then(function(result) {
-      alert('Admin added!');
+      //alert('Admin added!');
     }).catch(function(err) {
       console.error(err);
     });
@@ -1208,7 +1115,7 @@ App = {
       return instance.modifyAdministrator(ref);
 
     }).then(function(result) {
-      alert('Admin removed!');
+      //alert('Admin removed!');
     }).catch(function(error) {
       console.error(error);
     });
@@ -1259,4 +1166,101 @@ function OpenModifyPhoto(thisAttr){
 
 function OpenAddPhoto(thisAttr){
   $("#imgPerson_id").val(thisAttr.attr("data-id"));
+}
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+
+    $('#btnBrowsPhoto').change(function(evt) {
+
+        var files = evt.target.files;
+        var file = files[0];
+
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imgPersonPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        ResizeImage("btnBrowsPhoto", "imgPerson");
+    });
+
+    $('#modify_btnBrowsPhoto').change(function(evt) {
+
+        var files = evt.target.files;
+        var file = files[0];
+
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('modify_imgPersonPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        ResizeImage("modify_btnBrowsPhoto", "modify_imgPerson");
+    });
+
+
+});
+
+function ResizeImage(btnUp,imgUp) {
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        var filesToUploads = document.getElementById(btnUp).files;
+        var file = filesToUploads[0];
+        if (file) {
+
+            var reader = new FileReader();
+            // Set the image once loaded into file reader
+            reader.onload = function(e) {
+
+                var img = document.createElement("img");
+                img.src = e.target.result;
+
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                var MAX_WIDTH = 100;
+                var MAX_HEIGHT = 120;
+                var width = img.width;
+                var height = img.height;
+
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+
+
+
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+
+                dataurl = canvas.toDataURL(file.type,0.3);
+                document.getElementById(imgUp).src = dataurl;
+            }
+            reader.readAsDataURL(file);
+
+        }
+
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
 }

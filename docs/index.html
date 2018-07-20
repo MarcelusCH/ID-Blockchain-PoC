@@ -464,8 +464,7 @@
           <button type="button" class="btn btn-success btn-modify-photo btn-sm" data-toggle="modal" data-target="#modifyPhoto"
                   onclick="OpenModifyPhoto($(this)); return false;">Modify Photo</button>
           <button type="button" class="btn btn-success btn-modify-Person btn-sm" data-toggle="modal" data-target="#modifyPerson"
-                  onclick="OpenModifyPerson($(this)); return false;">Modify</button>
-          <button type="button" class="btn btn-info btn-add-minutia btn-sm margin15L">Add Bio</button>
+                  onclick="OpenModifyPerson($(this)); return false;">Modify info</button>
           <button type="button" class="btn btn-warning btn-push-validation btn-sm pull-right"
                   title="Push profil to validation request."  onclick="App.PuchPersonToValidation($(this)); return false;">Ask for validation</button>
           <button type="button" class="btn btn-warning btn-push-finalValidation btn-sm pull-right"
@@ -680,10 +679,11 @@
         <div class="modal-body">
 
           <input id="imgPerson_id"   type="text" hidden>
-          <input id="btnBrowsPhoto" type="file" onchange="previewFile()"><br>
+          <input id="btnBrowsPhoto" type="file"><br>
           <p>- La photo sera vérifée et validée par le "Contract Owner".
             Avant la validation, la photo n'apparaitra que pour vous même.</p>
           <img id="imgPerson" src=""  alt="Image preview...">
+          <img id="imgPersonPreview" src="" hidden>
 
 
 
@@ -697,23 +697,7 @@
           <button type="button" class="btn" data-dismiss="modal">Close</button>
         </div>
 
-        <script>
-           function previewFile(){
-               var preview = document.getElementById('imgPerson'); //selects the query named img
-               var file    = document.getElementById('btnBrowsPhoto').files[0]; //sames as here
-               var reader  = new FileReader();
 
-               reader.onloadend = function () {
-                   preview.src = reader.result;
-                  //alert(preview.src);
-               }
-
-               if (file) {reader.readAsDataURL(file);}
-               else {preview.src = "";}
-
-             }
-
-          </script>
       </div>
     </div>
   </div>
@@ -736,10 +720,11 @@
         <div class="modal-body">
 
           <input id="modify_imgPhoto_id"   type="text" hidden>
-          <input id="modify_btnBrowsPhoto" type="file" onchange="modify_previewFile()"><br>
+          <input id="modify_btnBrowsPhoto" type="file"><br>
           <p>- La photo sera vérifée et validée par le "Contract Owner".
             Avant la validation, la photo n'apparaitra que pour vous même.</p>
           <img id="modify_imgPerson" src=""  alt="Image preview...">
+          <img id="modify_imgPersonPreview" src="" hidden>
 
 
 
@@ -753,23 +738,8 @@
           <button type="button" class="btn" data-dismiss="modal">Close</button>
         </div>
 
-        <script>
-           function modify_previewFile(){
-               var preview = document.getElementById('modify_imgPerson'); //selects the query named img
-               var file    = document.getElementById('modify_btnBrowsPhoto').files[0]; //sames as here
-               var reader  = new FileReader();
 
-               reader.onloadend = function () {
-                   preview.src = reader.result;
-                  //alert(preview.src);
-               }
 
-               if (file) {reader.readAsDataURL(file);}
-               else {preview.src = "";}
-
-             }
-
-          </script>
       </div>
     </div>
   </div>

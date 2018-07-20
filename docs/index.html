@@ -193,7 +193,7 @@
         <div class="row">
 
           <div class="col-lg-12">
-            <h2 class="pull-left">ID Blockchain Decentralized App </h2><p class="pull-left" style="font-size: smaller;"> v0.1</p>
+            <h2 class="pull-left">ID Blockchain Decentralized App </h2><p class="pull-left" style="font-size: smaller;"> v0.1.0</p>
             <p id="ConectedAsLabel" class="pull-right" >Not conected</p>
 
 
@@ -205,8 +205,11 @@
 
         <div class="row">
           <div class="col-lg-12">
-            <progress max="100" value="0" id="DataLoadingProgress"  class="pull-left" style="width: 440px;">25%</progress></br>
+            <progress max="100" value="0" id="DataLoadingProgress"  class="pull-left" style="width: 440px;" title="Data Loading progress">25%</progress></br>
           </div>
+
+
+
         </div>
 
         <div class="row">
@@ -214,7 +217,7 @@
 
 
             <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#addPerson"
-              onclick="OpenAddPerson(); return false;">Add new person</button>
+              onclick="OpenAddPerson(); return false;" id="btn_addPerson">Add new person</button>
             <button class="btn btn-primary btn-sm pull-left margin5L" data-toggle="modal" data-target="#ManageAutorization">Manage autorizations</button>
 
 
@@ -480,7 +483,7 @@
           <button type="button" class="btn btn-success btn-modify-photo btn-sm" data-toggle="modal" data-target="#modifyPhoto"
                   onclick="OpenModifyPhoto($(this)); return false;">Modify Photo</button>
           <button type="button" class="btn btn-success btn-modify-Person btn-sm" data-toggle="modal" data-target="#modifyPerson"
-                  onclick="OpenModifyPerson($(this)); return false;">Modify info</button>
+                  onclick="OpenModifyPerson($(this)); return false;">Modify Info</button>
           <button type="button" class="btn btn-warning btn-push-validation btn-sm pull-right"
                   title="Push profil to validation request."  onclick="App.PuchPersonToValidation($(this)); return false;">Ask for validation</button>
           <button type="button" class="btn btn-warning btn-push-finalValidation btn-sm pull-right"
@@ -792,7 +795,12 @@
 
 
 
-
+<progress max="100" value="0" id="Progress_addPerson" hidden></progress>
+<progress max="100" value="0" id="Progress_addPhoto" hidden></progress>
+<progress max="100" value="0" id="Progress_modifyPerson" hidden></progress>
+<progress max="100" value="0" id="Progress_modifyPhoto" hidden></progress>
+<progress max="100" value="0" id="Progress_pushValidation" hidden></progress>
+<progress max="100" value="0" id="Progress_finalValidation" hidden></progress>
 
 
   <!-- ----------------------------------------------------------- -->

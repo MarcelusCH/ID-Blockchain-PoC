@@ -159,6 +159,7 @@ App = {
 
 
 
+
     App.displayAccountInfo();
     $('#DataLoadingProgress').val(2);
 
@@ -297,33 +298,22 @@ App = {
       return ;
     }).catch(function(err) {
       console.error(err.message);
-      //App.loading = false;
     });
 
   }, // ------------------------------------------------------------------------
   reloadOnePerson: function() {
 
-    //  alert(App.PersonModifID);
-
     App.displayAccountInfo();
 
 
-    App.contracts.PersonList.deployed().then(async function(instance) {
-      chainListInstance = instance;
+    App.contracts.PersonList.deployed().then(async function(chainListInstance) {
 
-
-
-      await chainListInstance.GetPerson(App.PersonModifID).then(async function(MyPersonData) {
-
-
-
-        await App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
+      await chainListInstance.GetPerson(App.PersonModifID).then(function(MyPersonData) {
+        App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
                           MyPersonData[4],MyPersonData[5],1,MyPersonData[6],false);
 
-
         return MyPersonData;
       }).then(async function(MyPersonData) {
-
 
         var photoString="";
         var photoStatus=0;
@@ -347,42 +337,23 @@ App = {
 
       }).catch(function(err) {
         console.error(err.message);
-        App.loading = false;
       });
 
 
+      await chainListInstance.GetPerson(App.PersonModifID).then(function(PersonData) {
+          App.displayPerson(PersonData[0],PersonData[1],PersonData[2],PersonData[3],
+                            PersonData[4],PersonData[5],0,PersonData[6],false);
 
-
-
-
-
-
-
-
-
-
-
-
-      await chainListInstance.GetPerson(App.PersonModifID).then(async function(MyPersonData) {
-
-
-
-          await App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
-                            MyPersonData[4],MyPersonData[5],0,MyPersonData[6],false);
-
-
-
-        return MyPersonData;
-      }).then(async function(MyPersonData) {
-
+        return PersonData;
+      }).then(async function(PersonData) {
 
         var photoString="";
         var photoStatus=0;
         var photoID=0;
 
-        var MyPhotoData = await chainListInstance.GetPhotoByPerson(MyPersonData[0]);
+        var MyPhotoData = await chainListInstance.GetPhotoByPerson(PersonData[0]);
 
-        if(MyPhotoData[2].toNumber()==MyPersonData[0].toNumber()){
+        if(MyPhotoData[2].toNumber()==PersonData[0].toNumber()){
 
           photoString=MyPhotoData[4];
           photoID=MyPhotoData[0];
@@ -393,19 +364,12 @@ App = {
           }
         }
 
-        App.displayPhotoAttribute(MyPersonData[0],photoString,photoStatus,MyPersonData[6],photoID);
+        App.displayPhotoAttribute(PersonData[0],photoString,photoStatus,PersonData[6],photoID);
 
 
       }).catch(function(err) {
         console.error(err.message);
-        App.loading = false;
       });
-
-
-
-
-
-
 
 
 
@@ -815,15 +779,25 @@ App = {
       return false;
     }
 
+    App.BtnWaitingStart("#btn_addPerson",'#Progress_addPerson');
+
+
+
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addPerson( _person_name, _person_givenName,
         _person_gender, _person_birthdate,{gasPrice: web3.toWei(10,'gwei')});
 
+
+
+
     }).then(function(result) {
-      //alert('Item added!\n(automatique view update will hapen once block is mined.)');
+      App.BtnWaitingDone("#btn_addPerson",'#Progress_addPerson',"Add new person");
     }).catch(function(err) {
+      App.BtnWaitingErr("#btn_addPerson",'#Progress_addPerson',"Add new person");
       console.error(err);
     });
+
+
   }, // ------------------------------------------------------------------------
 
 
@@ -845,14 +819,24 @@ App = {
       return false;
     }
 
+    App.BtnWaitingStart(".btn-modify-Person",'#Progress_modifyPerson');
+
     App.contracts.PersonList.deployed().then(function(instance){
+
+
+
       return instance.modifyPerson(_person_id, _person_name, _person_givenName,
         _person_gender, _person_birthdate,{gasPrice: web3.toWei(10,'gwei')});
+
     }).then(function(result) {
-    //  alert('Item modified!\n(automatique view update will hapen once block is mined.)');
+      App.BtnWaitingDone(".btn-modify-Person",'#Progress_modifyPerson',"Modify Info");
     }).catch(function(error) {
+      App.BtnWaitingErr(".btn-modify-Person",'#Progress_modifyPerson',"Modify Info");
       console.error(error);
     });
+
+
+
   }, // ------------------------------------------------------------------------
 
 
@@ -864,12 +848,15 @@ App = {
     event.preventDefault();
     var ref = _ref_person.attr("data-id");
 
+      App.BtnWaitingStart(".btn-push-validation",'#Progress_pushValidation');
+
     App.contracts.PersonList.deployed().then(function(instance){
       return instance.PuchPersonToValidation(ref,"",{gasPrice: web3.toWei(10,'gwei')});
 
     }).then(function(result) {
-      //alert('Item awaiting now validation!\n(automatique view update will hapen once block is mined.)');
+      App.BtnWaitingDone(".btn-push-validation",'#Progress_pushValidation',"Ask for validation");
     }).catch(function(error) {
+      App.BtnWaitingErr(".btn-push-validation",'#Progress_pushValidation',"Ask for validation");
       console.error(error);
     });
   }, // ------------------------------------------------------------------------
@@ -883,12 +870,15 @@ App = {
     event.preventDefault();
     var ref = _ref_person.attr("data-id");
 
+    App.BtnWaitingStart(".btn-push-finalValidation",'#Progress_finalValidation');
+
     App.contracts.PersonList.deployed().then(function(instance){
       return instance.FinalPersonValidation(ref,"",{gasPrice: web3.toWei(10,'gwei')});
 
     }).then(function(result) {
-      //alert('Item now validated!\n(automatique view update will hapen once block is mined.)');
+      App.BtnWaitingDone(".btn-push-finalValidation",'#Progress_finalValidation',"Final Validation");
     }).catch(function(error) {
+        App.BtnWaitingErr(".btn-push-finalValidation",'#Progress_finalValidation',"Final Validation");
       console.error(error);
     });
   }, // ------------------------------------------------------------------------
@@ -912,6 +902,9 @@ App = {
       return false;
     }
 
+    App.BtnWaitingStart(".btn-add-photo",'#Progress_addPhoto');
+
+
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.addPhoto(_ref_person, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
@@ -920,8 +913,9 @@ App = {
     });
 
     }).then(function(result) {
-      //alert('Item added!\n(automatique view update will hapen once block is mined.)');
+      App.BtnWaitingDone(".btn-add-photo",'#Progress_addPhoto',"Add Photo");
     }).catch(function(err) {
+      App.BtnWaitingErr(".btn-add-photo",'#Progress_addPhoto',"Add Photo");
       console.error(err);
     });
   }, // ------------------------------------------------------------------------
@@ -945,6 +939,8 @@ App = {
       return false;
     }
 
+    App.BtnWaitingStart(".btn-modify-photo",'#Progress_modifyPhoto',"Modify Photo");
+
     App.contracts.PersonList.deployed().then(function(instance) {
       return instance.modifyPhoto(_ref_photo, _PhotoEncoding, _PhotoBlob, {
       from: App.account,
@@ -958,8 +954,9 @@ App = {
 
 
     }).then(function(result) {
-      //alert('Item modified!\n(automatique view update will hapen once block is mined.)');
+      App.BtnWaitingDone(".btn-modify-photo",'#Progress_modifyPhoto',"Modify Photo");
     }).catch(function(err) {
+      App.BtnWaitingErr(".btn-modify-photo",'#Progress_modifyPhoto',"Modify Photo");
       console.error(err);
     });
   }, // ------------------------------------------------------------------------
@@ -1139,6 +1136,58 @@ App = {
 
   },
 
+
+
+
+
+
+  BtnWaitingStart: function(_btn, _Progress){
+
+    $(_btn).prop("disabled",true);
+    $(_btn).html("Wait, 0%");
+    $(_Progress).val(0);
+    function doSetTimeoutThis(i) {
+      setTimeout(function() {
+        if ($(_Progress).val()<70){
+          $(_Progress).val(i);
+          $(_btn).text("Wait, "+i+"%");
+        }
+      }, (700*i));
+    }
+    for(var IncProgress = 1; IncProgress <= 70; IncProgress++) {
+      doSetTimeoutThis(IncProgress);
+    }
+
+
+  },
+  BtnWaitingDone: function(_btn, _Progress, _title){
+
+    function doSetTimeout(j) {
+      setTimeout(function() {
+        if($(_Progress).val()<100){
+          $(_Progress).val(j);
+          $(_btn).html("Wait, "+j+"%");
+
+          if(j==100){
+            $(_btn).prop("disabled",false);
+            $(_btn).text(_title);
+          }
+        }
+
+
+      }, (100*j));
+    }
+
+    for(var IncProgress = 70; IncProgress <= 100; IncProgress++) {
+      doSetTimeout(IncProgress);
+    }
+
+  },
+  BtnWaitingErr: function(_btn, _Progress, _title){
+    $(_Progress).val(100);
+    $(_btn).prop("disabled",false);
+    $(_btn).text(_title);
+  }
 
 
 

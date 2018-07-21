@@ -308,8 +308,8 @@ App = {
 
     App.contracts.PersonList.deployed().then(async function(chainListInstance) {
 
-      await chainListInstance.GetPerson(App.PersonModifID).then(function(MyPersonData) {
-        App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
+      await chainListInstance.GetPerson(App.PersonModifID).then(async function(MyPersonData) {
+        await App.displayPerson(MyPersonData[0],MyPersonData[1],MyPersonData[2],MyPersonData[3],
                           MyPersonData[4],MyPersonData[5],1,MyPersonData[6],false);
 
         return MyPersonData;
@@ -332,7 +332,7 @@ App = {
           }
         }
 
-        App.displayPhotoAttribute(MyPersonData[0],photoString,photoStatus,MyPersonData[6],photoID);
+        await App.displayPhotoAttribute(MyPersonData[0],photoString,photoStatus,MyPersonData[6],photoID);
 
 
       }).catch(function(err) {
@@ -340,8 +340,8 @@ App = {
       });
 
 
-      await chainListInstance.GetPerson(App.PersonModifID).then(function(PersonData) {
-          App.displayPerson(PersonData[0],PersonData[1],PersonData[2],PersonData[3],
+      await chainListInstance.GetPerson(App.PersonModifID).then(async function(PersonData) {
+          await App.displayPerson(PersonData[0],PersonData[1],PersonData[2],PersonData[3],
                             PersonData[4],PersonData[5],0,PersonData[6],false);
 
         return PersonData;
@@ -364,7 +364,7 @@ App = {
           }
         }
 
-        App.displayPhotoAttribute(PersonData[0],photoString,photoStatus,PersonData[6],photoID);
+        await App.displayPhotoAttribute(PersonData[0],photoString,photoStatus,PersonData[6],photoID);
 
 
       }).catch(function(err) {

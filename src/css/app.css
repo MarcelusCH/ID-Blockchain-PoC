@@ -42,8 +42,17 @@ h2 {
   width: 120px;
 }
 
+.bn-branding-adplacement{
+  display: none;
+}
+.bn-forum-header{
+  display: none;
+}
+.bn-forum-topnav{
+  display: none;
+}
 
-.href{
-  color: blue;
-
+#bn-forum-content-wrapper-263449489{
+  height: auto;
+  margin-top:-15px;
 }

@@ -1200,8 +1200,25 @@ App = {
 $(function() {
 
   $(window).load(function() {
+
+
     App.init();
+
+    var checkIfExists = setInterval(function() {
+        var exists = $(".bn-branding-adplacement");
+        if (exists) {
+            clearInterval(checkIfExists);
+            document.location.hash = '';
+        }
+    }, 25);
+
+
   });
+
+
+
+
+
 });
 
 
@@ -1237,11 +1254,8 @@ function OpenAddPhoto(thisAttr){
 
 
 
-
-
-
-
 $(document).ready(function() {
+
 
     $('#btnBrowsPhoto').change(function(evt) {
 

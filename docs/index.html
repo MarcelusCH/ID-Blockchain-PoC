@@ -64,7 +64,7 @@
 
         <p>Ce site internet est un "Proof of Concept" qu'une base de données d'identification de personnes peut être déployée sur une blockchain
           et que des Dapp (applications décentralisées) peuvent être utilisées pour interagir avec les éléments enregistrés. Grâce aux 'Smart Contract',
-          écrit en langage "Solidity" de la plateforme Ethereum, toutes les informations sont séquencées et sécurisées de façon immuable dans la blockchain
+          écrit en langage "Solidity" (compilé en bytcode dans l'Ethereum Virtual Machine) de la plateforme Ethereum, toutes les informations sont séquencées et sécurisées de façon immuable dans la blockchain
           une fois les contrats exécutés.</p>
 
         <p><strong>Important avant de commencer: </strong>Cette application est basée sur la technologie blockchain de Ethereum et il est donc nécessaire
@@ -88,7 +88,7 @@
           <div class="col-lg-12 margin15L">
             <p>L'application ID Blockchain PoC (v0.1.0) possède 5 type d’accès ; Owner, Administrator, Write User, Read User et User. Ces types d'accès sont pour l'instant
               "hard" codé dans les contrats solidity (.sol) et chaque type d'accès peut être vérifié à l'aide des méthodes ; IsOwner(), IsAdmin(), IsWritePerson()
-              et IsReadPerson(). Ces accès sont définit par l'addresse Ethereum utilisée pour la connexion à cette application. Seul les accès Owner, Administrator et User
+              et IsReadPerson(). Ces accès sont définit par l'addresse Ethereum utilisée pour la connexion à cette application. Seul les d'accès Owner, Administrator et User
               sont actuellement utilisé dans cette démo. Les différentes autorisations d'accès pour chaque type sont décrites ci-dessous.
             </p>
 
@@ -130,7 +130,7 @@
             <p>La validation de la photo ne peut être faite que par le "Owner" et comporte 2 statut; vrai=lorsque la photo à été validée, faux=lors que la photo à été ajoutée
                 ou modifiée. Une Image non validée ne peut être vue que par l'utilisateur qui l'a ajouté ou modifié. Une fois la photo validée,
                 celle-ci peut être vue par les (autres) administrateurs ou par le propriétaire de la fiche personne.</p>
-            <p>La validation de la fiche personne peut être faite par un "Administrator" et comporte 3 statut; -1=Validation non initié, 0=Validation en attente, 1=Validé.
+            <p>La validation de la fiche personne peut être faite par un "Administrator" et comporte 3 statut; -1=Validation non initiée, 0=Validation en attente, 1=Validé.
                 Comme décrit plus haut, un "User" peut seulement initier la validation des ces propres fiches et les "Administrator" peuvent effectuer toutes les validations
                 de toutes les fiches personnes. Lorsqu'un utilisateur initie la validation, la nouvelle fiche personne passe alors du statut de validation "-1" à "0", en attente de validation.
                 Lorsqu'un "administrator" valide la fiche personne, cette fiche passe alors du statut de validation "0" à "1", validé.
@@ -163,8 +163,8 @@
           <div class="col-lg-12 margin5L"><strong>Coût en ETH</strong></div>
           <div class="col-lg-12 margin15L">
             <p>Les ETH dépensés sont des ether du réseau Rinkeby et n'ont aucune valeur marchande. Sur le site site <a href="">rinkeby.io</a>,
-              les ether peuvent être obtenu gratuitement. Delon la taille de l'image (env. 100px/150px), l'ajout d'une personne varie entre 0.1 à 1 ETH. Ce qui serai énorme
-              sur le réseau ETH principal!
+              les ether peuvent être obtenu gratuitement. Celon la taille de l'image (env. 100px/150px), l'ajout d'une personne varie entre 0.01 à 0.07 ETH. Ce qui serai énorme
+              sur le réseau ETH principa, env. 30 USD à ce jour!
 
             </p>
           </div>
@@ -825,7 +825,7 @@
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="navbar-inner navbar-content-center text-center">
         <p class="text-muted" credit><a href="https://ch.linkedin.com/in/buobmarcel"
-           rel="nofollow" target="_blank"  style="font-size: smaller;">Marcel BUOB IT</a> - Last update: 2018-07-24</a></p>
+           rel="nofollow" target="_blank"  style="font-size: smaller;">Marcel BUOB IT</a> - Last update: 2018-07-25</a></p>
       </div>
     </nav>
   </div>
